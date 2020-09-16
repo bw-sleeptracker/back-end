@@ -11,12 +11,13 @@ const getBy = async (filter) => {
 
 const getById = async (id) => {
     return db('users').where({id}).select('id', 'username', 'admin', 'email')
-    .first();
 }
 
 const create = async (user) => {
-    const [id] = await db('users').insert(user);
-    return getById(id)
+
+    console.log('user:', user)
+    const id = await db('users').insert(user);
+    return getById(user.id)
 }
 
 const update = async (user) => {
