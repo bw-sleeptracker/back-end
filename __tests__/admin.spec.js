@@ -10,6 +10,7 @@ const login = async () => {
   await supertest(server).post('/auth/register').send({
     username: 'user1',
     password: 'password',
+    email: 'email@email.com',
     admin: true,
   });
   const response = await supertest(server).post('/auth/login').send({
@@ -61,7 +62,7 @@ describe('admin integration tests', () => {
       const res = await supertest(server).get(`/admin/users/${validId}`).send({token: token});
       expect(res.statusCode).toBe(200);
       expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
-      expect(res.body.username).toBe('jess')
+      expect(res.body.username).toBe('joe')
     }
   })
 

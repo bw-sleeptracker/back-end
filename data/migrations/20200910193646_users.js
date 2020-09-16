@@ -3,7 +3,8 @@ exports.up = function (knex) {
   
       .createTable("users", tbl => {
         tbl.uuid('id').notNullable().unique().primary();
-        tbl.string("username", 128).notNullable().unique().index();
+        tbl.string("username", 256).notNullable().unique().index();
+        tbl.string('email', 256).notNullable().unique();
         tbl.string("password", 256).notNullable();
         tbl.boolean('admin').defaultTo(false);
 

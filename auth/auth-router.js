@@ -5,6 +5,8 @@ const usersModel = require('../models/users');
 const {v4: uuidv4} = require('uuid');
 const validateBodyUsername = require('../middleware/validateBodyUsername')
 const validateBodyPassword = require('../middleware/validateBodyPassword')
+const validateUniqueEmail = require('../middleware/validateUniqueEmail')
+const validateUniqeUsername = require('../middleware/validateUniqueUsername')
 const validateToken = require('./validateToken');
 
 
@@ -12,24 +14,24 @@ const validateToken = require('./validateToken');
  *                      Register User - "POST /api/auth/register"
  ******************************************************************************/
 
-router.post('/register', validateBodyPassword(), validateBodyUsername(), async (req, res) => {
-  const username = req.body.username
-  const duplicateUser = await usersModel.getBy({username});
-  if (duplicateUser.length > 0) {
-    res.status(400).json({message: 'username already taken'})
-  } else {
-    let user = req.body;
-    const hash = bcrypt.hashSync(user.password, 10);
-    user.password = hash;
-    user.id = uuidv4();
-    try {
-      await usersModel.create(user);
-      res.status(201).json({message: 'User successfully created'});
-    } catch (err) {
-      console.log(err);
-      res.status(500).json(err);
-    }
+router.post('/register', validateBodyPassword(), validateBodyUsername(), validateUniqeUsername(), validateUniqueEmail(), async (req, res) => {
+  // const username = req.body.username
+  // const duplicateUser = await usersModel.getBy({username});
+  // if (duplicateUser.length > 0) {
+  //   res.status(400).json({message: 'username already taken'})
+  // } else {
+  let user = req.body;
+  const hash = bcrypt.hashSync(user.password, 10);
+  user.password = hash;
+  user.id = uuidv4();
+  try {
+    await usersModel.create(user);
+    res.status(201).json({message: 'User successfully created'});
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
   }
+  // }
 });
 
 /******************************************************************************

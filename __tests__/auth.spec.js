@@ -6,7 +6,8 @@ const username = 'auth user test'
 
 const dummyUser = {
   username: username,
-  password: 'password'
+  password: 'password',
+  email: 'email@email.com'
 }
 
 let token;
@@ -58,12 +59,26 @@ describe('auth integration tests', () => {
 
   it('POST /auth/register, (error status 400 and descriptive message if username already exists)', async () => {
     const res = await supertest(server).post('/auth/register').send({
-      username: 'jess',
-      password: 'password'
+      username: 'joe',
+      password: 'password',
+      email: 'joe@joe.com'
     });
     expect(res.statusCode).toBe(400);
     expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
     expect(res.body.message).toBe("username already taken")
+  })
+
+    it('POST /auth/register, (error status 400 and descriptive message if' +
+      ' email' +
+      ' already exists)', async () => {
+    const res = await supertest(server).post('/auth/register').send({
+      username: 'joey',
+      password: 'password',
+      email: 'joe@joe.com'
+    });
+    expect(res.statusCode).toBe(400);
+    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.body.message).toBe("email already taken")
   })
 
   it('POST /auth/login, (logs a user in)', async () => {

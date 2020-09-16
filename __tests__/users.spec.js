@@ -9,6 +9,7 @@ const login = async () => {
   await supertest(server).post('/auth/register').send({
     username: 'non admin user',
     password: 'password',
+    email: 'email@email.com'
   });
   const response = await supertest(server).post('/auth/login').send({
     username: 'non admin user',
