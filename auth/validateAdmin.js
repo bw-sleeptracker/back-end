@@ -15,7 +15,6 @@ module.exports = () => (req, res, next) => {
           message: "invalid token"
         })
       }
-      console.log(decoded.userAdmin)
       	// checking that the user is an admin
 				if (!decoded.userAdmin) {
 					return res.status(403).json({

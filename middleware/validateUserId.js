@@ -6,7 +6,6 @@ module.exports = () => (req, res, next) => {
     const {id} = req.params;
     usersModel.getById(id)
         .then((user) => {
-          console.log({user})
             if (user[0]) {
                 next();
             } else {

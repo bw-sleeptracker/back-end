@@ -14,8 +14,6 @@ const getById = async (id) => {
 }
 
 const create = async (user) => {
-
-    console.log('user:', user)
     const id = await db('users').insert(user);
     return getById(user.id)
 }

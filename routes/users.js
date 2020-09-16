@@ -15,7 +15,7 @@ const validateBody = require('../middleware/validateBody');
     try {
       const user = await usersModel.getById(req.id)
       if (user) {
-        res.status(200).json(user)
+        res.status(200).json(user[0])
       } else {
         res.status(404).json({message: `No user found with that id`});
       }
