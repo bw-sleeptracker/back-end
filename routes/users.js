@@ -35,6 +35,7 @@ const validateBody = require('../middleware/validateBody');
   const user = {
   username: req.body.username,
   password: req.body.password,
+  email: req.body.email,
   id: req.id,
   }
   try {
