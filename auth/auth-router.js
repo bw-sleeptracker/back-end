@@ -15,11 +15,6 @@ const validateToken = require('./validateToken');
  ******************************************************************************/
 
 router.post('/register', validateBodyPassword(), validateBodyUsername(), validateUniqeUsername(), validateUniqueEmail(), async (req, res) => {
-  // const username = req.body.username
-  // const duplicateUser = await usersModel.getBy({username});
-  // if (duplicateUser.length > 0) {
-  //   res.status(400).json({message: 'username already taken'})
-  // } else {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10);
   user.password = hash;

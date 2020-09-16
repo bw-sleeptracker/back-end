@@ -6,7 +6,8 @@ module.exports = () => (req, res, next) => {
     const {id} = req.params;
     usersModel.getById(id)
         .then((user) => {
-            if (user) {
+          console.log({user})
+            if (user[0]) {
                 next();
             } else {
                 res.status(400).json({message: "Invalid user ID"});
