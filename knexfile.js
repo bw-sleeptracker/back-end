@@ -37,7 +37,6 @@ module.exports = {
 
 production: {
     client: "pg",
-  	useNullAsDefault: true,
   	connection: {
 		host: `${process.env.DB_HOST}`,
 		user: `${process.env.DB_USER}`,
