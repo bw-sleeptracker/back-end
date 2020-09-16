@@ -18,7 +18,7 @@ module.exports = () => (req, res, next) => {
       console.log(decoded.userAdmin)
       	// checking that the user is an admin
         // todo: no user role in users table yet, need to add
-				if (decoded.userAdmin !== 1) {
+				if (!decoded.userAdmin) {
 					return res.status(403).json({
 						message: "Unauthorized",
 					})
