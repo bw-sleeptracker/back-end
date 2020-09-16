@@ -5,16 +5,22 @@ const pgConnection = process.env.DATABASE_URL || "postgresql://postgres@localhos
 
 module.exports = {
   development: {
-    client: "sqlite3",
-    useNullAsDefault: true,
+    client: "pg",
     connection: {
-      filename: "./data/db.db3",
-    },
-    pool: {
-      afterCreate: (conn, done) => {
-        conn.run("PRAGMA foreign_keys = ON", done);
+      host: `${process.env.DB_HOST}`,
+      user: `${process.env.DB_USER}`,
+      password: `${process.env.DB_PASSWORD}`,
+      database: `${process.env.DB_NAME}`,
+      ssl: {
+        sslmode: 'require',
+        rejectUnauthorized: false,
       },
     },
+    // pool: {
+    //   afterCreate: (conn, done) => {
+    //     conn.run("PRAGMA foreign_keys = ON", done);
+    //   },
+    // },
     migrations: {
       directory: "./data/migrations",
     },
@@ -35,19 +41,25 @@ module.exports = {
     },
   },
 
-production: {
+  production: {
     client: "pg",
-  	connection: {
-		host: `${process.env.DB_HOST}`,
-		user: `${process.env.DB_USER}`,
-		password: `${process.env.DB_PASSWORD}`,
-		database: `${process.env.DB_NAME}`
-  	},
-  	migrations: {
-  		directory: "./data/migrations",
-  	},
-  	seeds: {
-  		directory: "./data/seeds",
-  	}
+    connection: {
+      host: `${process.env.DB_HOST}`,
+      user: `${process.env.DB_USER}`,
+      password: `${process.env.DB_PASSWORD}`,
+      database: `${process.env.DB_NAME}`,
+      ssl: {
+        sslmode: 'require',
+        rejectUnauthorized: false,
+      },
+    },
+    migrations: {
+      directory: "./data/migrations",
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
   }
-};
+}
+;
