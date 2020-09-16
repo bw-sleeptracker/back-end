@@ -1,4 +1,6 @@
-# Documentation
+# Sleep Tracker API Documentation
+### API link
+<https://sleep-tracker-backend.herokuapp.com/>
 
 ## Routes
 ## /auth Endpoints
