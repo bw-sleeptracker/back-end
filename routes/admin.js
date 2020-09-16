@@ -29,7 +29,7 @@ router.get('/users/:id', validateUserId(), async (req, res, next) => {
   try {
     const user = await usersModel.getById(req.params.id)
     if (user) {
-      res.status(200).json(user)
+      res.status(200).json(user[0])
     } else {
       res.status(404).json({message: `Error fetching user, try again later`});
     }
