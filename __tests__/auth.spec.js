@@ -9,7 +9,7 @@ const dummyUser = {
   password: 'password',
   email: 'email@email.com'
 }
-
+const contentType = "application/json; charset=utf-8"
 let token;
 
 const login = async () => {
@@ -33,7 +33,7 @@ describe('auth integration tests', () => {
   it('POST /auth/register, (creates a new user)', async () => {
     const res = await supertest(server).post('/auth/register').send(dummyUser);
     expect(res.statusCode).toBe(201);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe('User successfully created')
   })
 
@@ -43,7 +43,7 @@ describe('auth integration tests', () => {
       username: 'user1',
     });
     expect(res.statusCode).toBe(400);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe('no password supplied')
   })
 
@@ -53,7 +53,7 @@ describe('auth integration tests', () => {
       password: 'password',
     });
     expect(res.statusCode).toBe(400);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe('no username supplied')
   })
 
@@ -64,7 +64,7 @@ describe('auth integration tests', () => {
       email: 'joe@joe.com'
     });
     expect(res.statusCode).toBe(400);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe("username already taken")
   })
 
@@ -77,7 +77,7 @@ describe('auth integration tests', () => {
       email: 'joe@joe.com'
     });
     expect(res.statusCode).toBe(400);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe("email already taken")
   })
 
@@ -85,7 +85,7 @@ describe('auth integration tests', () => {
     await supertest(server).post('/auth/register').send(dummyUser);
     const res = await supertest(server).post('/auth/login').send(dummyUser);
     expect(res.statusCode).toBe(200);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe(`Welcome ${username}!`)
   })
 
@@ -95,7 +95,7 @@ describe('auth integration tests', () => {
       password: 'wrongpassword'
     });
     expect(res.statusCode).toBe(401);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe('Invalid Credentials')
   })
 
@@ -105,7 +105,7 @@ describe('auth integration tests', () => {
       username: 'jess',
     });
     expect(res.statusCode).toBe(400);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe('no password supplied')
   })
 
@@ -115,7 +115,7 @@ describe('auth integration tests', () => {
       password: 'password',
     });
     expect(res.statusCode).toBe(400);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe('no username supplied')
   })
 

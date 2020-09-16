@@ -4,6 +4,8 @@ const db = require('../data/dbConfig');
 
 const validId = '4f95d22e-21a9-4ee4-9e9a-b14479b36556'
 const invalidId = '4f95d22e-21a9-4ee4-9e9a-b14479b365'
+const contentType = "application/json; charset=utf-8"
+
 let token;
 
 const login = async () => {
@@ -35,7 +37,7 @@ describe('admin integration tests', () => {
     it('GET /admin/users, (can not get users if not admin)', async () => {
     const res = await supertest(server).get('/admin/users');
     expect(res.statusCode).toBe(401);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe('missing required token')
   })
 
@@ -44,7 +46,7 @@ describe('admin integration tests', () => {
     if (token !== undefined) {
       const res = await supertest(server).get('/admin/users').send({token: token});
       expect(res.statusCode).toBe(200);
-      expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+      expect(res.headers['content-type']).toBe(contentType);
     }
   })
 
@@ -52,7 +54,7 @@ describe('admin integration tests', () => {
     ' user by id if not admin)', async () => {
     const res = await supertest(server).get(`/admin/users/${validId}`);
     expect(res.statusCode).toBe(401);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe('missing required token')
   })
 
@@ -61,7 +63,7 @@ describe('admin integration tests', () => {
     if (token !== undefined) {
       const res = await supertest(server).get(`/admin/users/${validId}`).send({token: token});
       expect(res.statusCode).toBe(200);
-      expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+      expect(res.headers['content-type']).toBe(contentType);
       expect(res.body.username).toBe('joe')
     }
   })
@@ -74,7 +76,7 @@ describe('admin integration tests', () => {
       supertest(server).get(`/admin/users/${invalidId}`).send({token:
       token});
       expect(res.statusCode).toBe(400);
-      expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+      expect(res.headers['content-type']).toBe(contentType);
       expect(res.body.message).toBe('Invalid user ID')
     }
   })
@@ -84,7 +86,7 @@ describe('admin integration tests', () => {
     ' delete a user by id if not admin)', async () => {
     const res = await supertest(server).delete(`/admin/users/${validId}`);
     expect(res.statusCode).toBe(401);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe('missing required token')
   })
 
@@ -102,7 +104,7 @@ describe('admin integration tests', () => {
     if (token !== undefined) {
       const res = await supertest(server).delete(`/admin/users/${invalidId}`).send({token: token});
       expect(res.statusCode).toBe(400);
-      expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+      expect(res.headers['content-type']).toBe(contentType);
       expect(res.body.message).toBe('Invalid user ID');
     }
   })

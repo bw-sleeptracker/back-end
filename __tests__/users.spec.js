@@ -15,8 +15,10 @@ const login = async () => {
     username: 'non admin user',
     password: 'password'
   });
+
   token = response.body.token
 }
+const contentType = "application/json; charset=utf-8"
 
 // * clears db and reseeds it to initial data before each individual test
 beforeEach(async () => {
@@ -33,7 +35,7 @@ describe('users integration tests', () => {
   it('GET /users/current-user, (can not get current user if not logged in)', async () => {
     const res = await supertest(server).get('/users/current-user');
     expect(res.statusCode).toBe(401);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe('missing required token')
   })
 
@@ -43,7 +45,7 @@ describe('users integration tests', () => {
     if (token !== undefined) {
       const res = await supertest(server).get('/users/current-user').send({token: token});
       expect(res.statusCode).toBe(200);
-      expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+      expect(res.headers['content-type']).toBe(contentType);
       expect(res.body.username).toBe('non admin user');
     }
   })
@@ -54,7 +56,7 @@ describe('users integration tests', () => {
       username: 'updated name'
     });
     expect(res.statusCode).toBe(401);
-    expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+    expect(res.headers['content-type']).toBe(contentType);
     expect(res.body.message).toBe('missing required token')
   })
 
@@ -76,7 +78,7 @@ describe('users integration tests', () => {
     if (token !== undefined) {
       const res = await supertest(server).put('/users/current-user').send({token: token});
       expect(res.statusCode).toBe(400);
-      expect(res.headers['content-type']).toBe("application/json; charset=utf-8");
+      expect(res.headers['content-type']).toBe(contentType);
       expect(res.body.message).toBe('Bad Request, no data sent');
 
     }
