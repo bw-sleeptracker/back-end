@@ -59,7 +59,8 @@ router.delete('/current-user',validateToken(), async (req, res, next) => {
     try {
       const result = await usersModel.remove(req.id);
       if (result) {
-        res.status(204).end()
+        await res.clearCookie('token').end();
+        //res.status(204).end()
       } else {
         res.status(404).json({message: 'Error deleting user'})
       }
