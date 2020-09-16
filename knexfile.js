@@ -45,10 +45,10 @@ production: {
 		database: `${process.env.DB_NAME}`
   	},
   	migrations: {
-  		directory: "./database/migrations",
+  		directory: "./data/migrations",
   	},
   	seeds: {
-  		directory: "./database/seeds",
+  		directory: "./data/seeds",
   	}
   }
 };
