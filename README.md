@@ -12,6 +12,7 @@
 |:-------|:--------------|
 |admin|_boolean_, _optional_|
 |username|_string_, _required_, must be unique|
+|email|_string_, _required_, must be unique| 
 |password|_string_, _required_|
 
 ### auth/login
@@ -45,6 +46,7 @@
 {
     "id": "c0137caf-69db-4040-8fef-7490ff829d45",
     "username": "JohnDoe",
+    "email": "email@email.com",
     "admin": 1
 }   
 ```
@@ -75,6 +77,7 @@
 {
     "id": "c0137caf-69db-4040-8fef-7490ff829d45",
     "username": "JohnDoe",
+    "email": "email@email.com",
     "admin": 1
 }   
 ```
@@ -88,6 +91,7 @@
 {
     "id": "c0137caf-69db-4040-8fef-7490ff829d45",
     "username": "JohnDoe",
+    "email": "email@email.com",
     "admin": 1
 }   
 ```

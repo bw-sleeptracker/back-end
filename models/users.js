@@ -1,7 +1,7 @@
 const db = require('../data/dbConfig');
 
 const get = async () => {
-    return db('users').select('id', 'username', 'admin');
+    return db('users').select('id', 'username', 'admin', 'email');
 }
 
 const getBy = async (filter) => {
@@ -10,7 +10,8 @@ const getBy = async (filter) => {
 
 
 const getById = async (id) => {
-    return db('users').where({id}).select('id', 'username', 'admin').first();
+    return db('users').where({id}).select('id', 'username', 'admin', 'email')
+    .first();
 }
 
 const create = async (user) => {
