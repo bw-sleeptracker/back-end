@@ -95,7 +95,7 @@ describe('users integration tests', () => {
     await login();
     if (token !== undefined) {
       const res = await supertest(server).delete('/users/current-user').send({token: token});
-      expect(res.statusCode).toBe(204);
+      expect(res.statusCode).toBe(200);
     }
   })
 })

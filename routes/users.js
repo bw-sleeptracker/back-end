@@ -15,7 +15,7 @@ const validateBody = require('../middleware/validateBody');
     try {
       const user = await usersModel.getById(req.id)
       if (user) {
-        res.status(200).json(user)
+        res.status(200).json(user[0])
       } else {
         res.status(404).json({message: `No user found with that id`});
       }
@@ -35,6 +35,7 @@ const validateBody = require('../middleware/validateBody');
   const user = {
   username: req.body.username,
   password: req.body.password,
+  email: req.body.email,
   id: req.id,
   }
   try {
@@ -58,7 +59,8 @@ router.delete('/current-user',validateToken(), async (req, res, next) => {
     try {
       const result = await usersModel.remove(req.id);
       if (result) {
-        res.status(204).end()
+        await res.clearCookie('token').end();
+        //res.status(204).end()
       } else {
         res.status(404).json({message: 'Error deleting user'})
       }
