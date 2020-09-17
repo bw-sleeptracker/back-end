@@ -20,8 +20,8 @@ exports.up = function(knex) {
         .createTable("sleep_log", tbl =>{
             tbl.uuid('id').notNullable().unique().primary();
             tbl.date("date").notNullable();
-            tbl.time("bedtime").notNullable();
-            tbl.time("wake_time").notNullable();
+            tbl.text("bedtime").notNullable();
+            tbl.text("wake_time").notNullable();
             tbl.integer("average_quality").notNullable();
             tbl.uuid("users_id")
                 .unsigned()
