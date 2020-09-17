@@ -28,8 +28,9 @@ exports.seed = async function (knex, promise) {
   const dataIds = await knex('aggregate_data').select('id')
 
   for (let i = 0; i < desiredFakeData; i++) {
-    // generating a random user id each iteration
+    // generating a random user id and aggregate_data id each iteration
     user = users[Math.floor(Math.random() * users.length) + 1];
+    data = dataIds[Math.floor(Math.random() * dataIds.length) + 1];
 
     createTime()
     if (goToSleep <= 1600308060888) {
