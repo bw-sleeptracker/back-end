@@ -1,4 +1,5 @@
 const faker = require('faker');
+const moment = require('moment');
 const bcrypt = require('bcryptjs');
 const {v4: uuidv4} = require('uuid');
 const db = require('./data/dbConfig');
@@ -57,17 +58,13 @@ const floodAggregateWeek = async () => {
     }, 1000);
   }
 }
-floodUsers()
-floodAggregateMonth()
-floodAggregateWeek()
 
-let goToSleep
-let wakeUp
+
+
 let user
 let data
-const createTime = () => {
-  goToSleep = faker.time.recent();
-}
+let month = 4
+let day = 1
 
 
 const floodSleepLog = async () => {
@@ -76,33 +73,58 @@ const floodSleepLog = async () => {
   const dataIds = await db('aggregate_week_data').select('id')
 
   for (let i = 0; i < desiredFakeData; i++) {
-    // generating a random user id and aggregate_data id each iteration
-    user = users[Math.floor(Math.random() * users.length)];
-    data = dataIds[Math.floor(Math.random() * dataIds.length)];
-
-    createTime()
-    if (goToSleep <= 1600308060888) {
-      wakeUp = goToSleep + 700000000000;
-    } else if (goToSleep >= 1600308060888) {
-      wakeUp = goToSleep - 700000000000;
-    }
-    setTimeout(async () => {
-      const sleepData = {
-        id: faker.random.uuid(),
-        date: faker.date.past(),
-        bedtime: goToSleep,
-        wake_time: wakeUp,
-        total_hours_slept: faker.random.number({min: 5, max: 9}),
-        average_quality: faker.random.number({min: 1, max: 4}),
-        users_id: user.id,
-        aggregate_week_data_id: data.id,
+      if (day < 30) {
+        day++
+      } else if (day === 30) {
+        day = 1
+        if (month < 11) {
+          month++
+        } else if (month === 11) {
+          month = 1
+        }
       }
-      return db('sleep_log')
-        .insert(sleepData)
-        .catch(err => console.log(err));
-    }, 1000);
+     const bedtime = moment({
+      year: '2020',
+      month: month,
+      day: day,
+      hours: '22',
+      minutes: '00',
+      seconds: '0'
+    }).format("YYYY-MM-DD hh:mm:ss");
 
-  }
+    const wakeTime = moment({
+      year: '2020',
+      month: month,
+      day: day + 1,
+      hours: '6',
+      minutes: '00',
+      seconds: '0'
+    }).format("YYYY-MM-DD hh:mm:ss")
+
+    // console.log({bedtime})
+    // console.log({wakeTime})
+
+      // generating a random user id and aggregate_data id each iteration
+      user = users[Math.floor(Math.random() * users.length)];
+      data = dataIds[Math.floor(Math.random() * dataIds.length)];
+
+      setTimeout(async () => {
+        const sleepData = {
+          id: faker.random.uuid(),
+          date: faker.date.past(),
+          bedtime: bedtime,
+          wake_time: wakeTime,
+          total_hours_slept: 8,
+          average_quality: faker.random.number({min: 1, max: 4}),
+          users_id: user.id,
+          aggregate_week_data_id: data.id,
+        }
+        return db('sleep_log')
+          .insert(sleepData)
+          .catch(err => console.log(err));
+      }, 1000);
+
+    }
 }
 
 const floodQualityLog = async () => {
@@ -184,5 +206,5 @@ const createAdmins = async () => {
 // floodAggregateWeek()
 // floodSleepLog()
 // floodQualityLog()
-createAdmins()
+// createAdmins()
 
