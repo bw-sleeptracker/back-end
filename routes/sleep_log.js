@@ -45,6 +45,22 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
+/******************************************************************************
+ *                      Get all sleep logs for a current user -
+ *                      "GET
+ *                      /sleep/all/:id"
+ ******************************************************************************/
+
+router.get('/all/:id', async (req, res, next) => {
+  try {
+    const logs = await sleepModel.getAllByUserId(req.params.id)
+    res.status(200).json(logs)
+  } catch (err) {
+    console.log(err.stack);
+    next(err);
+  }
+})
+
 
 /******************************************************************************
  *                      Get sleep_log by id - "GET
