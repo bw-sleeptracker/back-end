@@ -50,7 +50,7 @@ router.put('/:id', async (req, res, next) => {
  *                      /sleep/date"
  ******************************************************************************/
 
-router.get('/date', async (req, res, next) => {
+router.get('/current-user', async (req, res, next) => {
   console.log(req.query.date)
   try {
     const log = await sleepModel.getByDate(req.id, req.query.date)

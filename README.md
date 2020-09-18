@@ -199,4 +199,25 @@
     }
 
 ```
+### sleep/current-user/?date={date}
+#### GET
+* Requires user to be logged in
+* Requires a date string in the format 2020-09-18
+* Returns a JSON object containing sleep log data for a user by
+  date query
+
+```js
+
+    {
+        "date": "2020-09-18T04:00:00.000Z",
+        "bedtime": "2020-09-17T23:00:00.000Z",
+        "wake_time": null,
+        "total_hours_slept": null,
+        "average_quality": 0,
+        "wake_score": 0,
+        "day_score": 0,
+        "bedtime_score": 0
+    }
+
+```
 
