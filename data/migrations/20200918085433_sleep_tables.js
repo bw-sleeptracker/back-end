@@ -27,6 +27,9 @@ exports.up = function (knex) {
         .notNullable()
         .references("id")
         .inTable("aggregate_month_data")
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+
     })
 
 
@@ -42,11 +45,17 @@ exports.up = function (knex) {
         .notNullable()
         .references('id')
         .inTable("users")
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+
       tbl.uuid("aggregate_week_data_id")
         .unsigned()
         .notNullable()
         .references("id")
         .inTable("aggregate_week_data")
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+
     })
 
     .createTable("quality_log", tbl => {
@@ -59,6 +68,9 @@ exports.up = function (knex) {
         .notNullable()
         .references("id")
         .inTable("sleep_log")
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+
     })
 
 };

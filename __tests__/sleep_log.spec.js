@@ -39,16 +39,17 @@
 //     expect(res.body.message).toBe('missing required token')
 //   })
 //
-//   // ! failing test res.body is undefined
+//   // ! failing test res.body is undefined may need to change test db to pg
+//
 //   it('POST /sleep/current-user (can not create sleep log if not logged in)', async () => {
 //     await login();
 //     if (token !== undefined) {
 //       const res = await supertest(server).post('/sleep/current-user').send({token: token}).send({
-//         bedtime: '2020-09-17 23:00:00'
+//         bedtime: "2020-09-17 23:00:00"
 //       });
 //       expect(res.statusCode).toBe(201);
 //       expect(res.headers['content-type']).toBe(contentType);
-//       expect(res.body.bedtime).toBe('2020-09-17T23:00:00.000Z');
+//       expect(res.body.bedtime).toBe('2020-09-18T03:00:00.000Z');
 //     }
 //   })
 //

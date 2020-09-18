@@ -12,7 +12,7 @@ exports.seed = async function (knex, promise) {
         total_hours_slept: 8,
         average_quality: 4,
         users_id: '4f95d22e-21a9-4ee4-9e9a-b14479b36555',
-        aggregate_week_data_id: '4f95d22e-21a5-4ee4-9e8a-b14479b36555'
+        aggregate_week_data_id: '4f95d22e-21a9-4ee4-9e8a-b14479b36555'
 
       },
       {
@@ -23,7 +23,7 @@ exports.seed = async function (knex, promise) {
         total_hours_slept: 8,
         average_quality: 1,
         users_id: '4f95d22e-21a9-4ee4-9e9a-b14479b36556',
-        aggregate_week_data_id: '4f92d22e-20a5-4ee4-9e8a-b14479b36555'
+        aggregate_week_data_id: '4f95d22e-21a9-4ee4-9e8a-b14479b36555'
       },
     ])
 }

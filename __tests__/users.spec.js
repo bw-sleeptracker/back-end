@@ -22,7 +22,7 @@ const contentType = "application/json; charset=utf-8"
 
 // * clears db and reseeds it to initial data before each individual test
 beforeEach(async () => {
-  await db.migrate.latest();
+  // await db.migrate.latest();
   return db.seed.run();
 });
 // * closes any database connections after the tests in case it stays open

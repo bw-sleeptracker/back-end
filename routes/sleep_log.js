@@ -25,7 +25,6 @@ router.post('/current-user', validateCreateLogBody(), async (req, res, next) => 
   try {
     const sleepLogId = await sleepModel.create(req.id, bedtime)
     const [log] = await sleepModel.getById(sleepLogId)
-    console.log({log})
     res.status(201).json(log)
   } catch (err) {
     console.log(err.stack);

@@ -28,6 +28,8 @@ const create = async (userId, bedtime) => {
   console.log(qualityLogId)
   return logId
 }
+
+
 // helper functions for updating
 const getSleptHours = (bedtime, wakeTime) => {
   const time1 = new Date(bedtime)
