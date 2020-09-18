@@ -4,7 +4,8 @@ const usersModel = require('../models/users');
 const validateToken = require('../auth/validateToken');
 const validateUserId = require('../middleware/validateUserId');
 const validateAdmin = require('../auth/validateAdmin');
-const validateBody = require('../middleware/validateBody');
+const validateUserUpdateBody = require('../middleware/validateUserUpdateBody');
+
 
 
 /******************************************************************************
@@ -29,8 +30,8 @@ const validateBody = require('../middleware/validateBody');
  *                      Update current user - "PUT /users/current-user"
  ******************************************************************************/
 
-  router.put('/current-user', validateToken(), validateBody(), async (req,
-  res, next) => {
+  router.put('/current-user', validateToken(), validateUserUpdateBody(),
+  async (req, res, next) => {
   console.log(req.body)
   const user = {
   username: req.body.username,
@@ -38,6 +39,7 @@ const validateBody = require('../middleware/validateBody');
   email: req.body.email,
   id: req.id,
   }
+  console.log({user})
   try {
       const result = await usersModel.update(user);
       if (result) {

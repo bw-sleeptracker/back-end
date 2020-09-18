@@ -8,7 +8,11 @@ const usersModel = require('../models/users');
 const validateToken = require('../auth/validateToken');
 const validateUserId = require('../middleware/validateUserId');
 const validateAdmin = require('../auth/validateAdmin');
-const validateBody = require('../middleware/validateBody');
+const validateBody = require('../middleware/validateUserUpdateBody');
+const validateCreateLogBody = require('../middleware/validateCreateLogBody')
+const validateUpdateLogBody = require('../middleware/validateUpdateLogBody')
+const validateDateQuery = require('../middleware/validateDateQuery')
+const validateSleepLogId = require('../middleware/validateSleepLogId')
 
 
 /******************************************************************************
@@ -16,7 +20,7 @@ const validateBody = require('../middleware/validateBody');
  *                      /sleep/current-user"
  ******************************************************************************/
 
-router.post('/current-user', async (req, res, next) => {
+router.post('/current-user', validateCreateLogBody(), async (req, res, next) => {
   const {bedtime} = req.body;
   try {
     const sleepLogId = await sleepModel.create(req.id, bedtime)
@@ -34,7 +38,7 @@ router.post('/current-user', async (req, res, next) => {
  *                      /sleep/:id"
  ******************************************************************************/
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', validateUpdateLogBody(), validateSleepLogId(), async (req, res, next) => {
   const {id} = req.params;
   try {
     const sleepLog = await sleepModel.update(id, req.body)
@@ -50,7 +54,7 @@ router.put('/:id', async (req, res, next) => {
  *                      /sleep/date"
  ******************************************************************************/
 
-router.get('/current-user', async (req, res, next) => {
+router.get('/current-user', validateDateQuery(),  async (req, res, next) => {
   console.log(req.query.date)
   try {
     const log = await sleepModel.getByDate(req.id, req.query.date)
@@ -97,7 +101,7 @@ router.get('/latest/current-user', async (req, res, next) => {
  *                      /sleep/:id"
  ******************************************************************************/
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', validateSleepLogId(), async (req, res, next) => {
   try {
     const [log] = await sleepModel.getById(req.params.id)
     res.status(200).json(log)

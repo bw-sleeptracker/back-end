@@ -8,4 +8,4 @@ const usersModel = require('../models/users');
 const validateToken = require('../auth/validateToken');
 const validateUserId = require('../middleware/validateUserId');
 const validateAdmin = require('../auth/validateAdmin');
-const validateBody = require('../middleware/validateBody');
+const validateBody = require('../middleware/validateUserUpdateBody');
