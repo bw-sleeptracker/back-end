@@ -1,45 +1,5 @@
-const faker = require('faker');
-const db = require('../dbConfig')
-
-let sleepLogId
-
-const floodQualityLog = () => ({
-    id: faker.random.uuid(),
-    wake_score: faker.random.number({min: 1, max: 4}),
-    day_score: faker.random.number({min: 1, max: 4}),
-    bedtime_score: faker.random.number({min: 1, max: 4}),
-    sleep_log_id: sleepLogId.id
-  }
-)
-
 exports.seed = async function (knex, promise) {
-
-  const fakerData = []
-  const desiredFakeData = 100
-  // getting a list of all sleep_log ids and aggregate_data ids
-  const sleepLogIds = await db('sleep_log').select('id')
-
-    console.log({sleepLogIds})
   await knex('quality_log').del()
-  for (let i = 0; i < desiredFakeData; i++) {
-    // generating a random sleep log id each iteration
-    sleepLogId = sleepLogIds[Math.floor(Math.random() * sleepLogIds.length) + 1];
-    // fakerData.push(floodQualityLog());
-  console.log(sleepLogId)
-  await knex('quality_log')
-    .insert({
-      id: faker.random.uuid(),
-      wake_score: faker.random.number({min: 1, max: 4}),
-      day_score: faker.random.number({min: 1, max: 4}),
-      bedtime_score: faker.random.number({min: 1, max: 4}),
-      sleep_log_id: sleepLogId.id
-    })
-  }
-
-  // Deletes ALL existing entries
-  // await knex('quality_log').del()
-  // await knex('quality_log')
-  //   .insert(fakerData)``
   await knex('quality_log')
     .insert([
       {
