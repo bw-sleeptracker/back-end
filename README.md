@@ -108,7 +108,7 @@
 ### sleep/current-user
 #### POST
 * Requires user to be logged in
-* Returns a JSON object containing new sleep log data
+* Returns a JSON object containing newly created sleep log data
 
 |Parameters| Description|
 |:-------|:--------------|

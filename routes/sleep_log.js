@@ -11,7 +11,6 @@ const validateAdmin = require('../auth/validateAdmin');
 const validateBody = require('../middleware/validateBody');
 
 
-
 /******************************************************************************
  *                      Create sleep_log by userId - "POST
  *                      /sleep/current-user"
@@ -19,16 +18,33 @@ const validateBody = require('../middleware/validateBody');
 
 router.post('/current-user', async (req, res, next) => {
   const {bedtime} = req.body;
-    try {
+  try {
     const sleepLogId = await sleepModel.create(req.id, bedtime)
     const [log] = await sleepModel.getById(sleepLogId)
-      console.log({log})
-      res.status(201).json(log)
-  } catch(err) {
+    console.log({log})
+    res.status(201).json(log)
+  } catch (err) {
     console.log(err.stack);
     next(err);
   }
 })
+
+/******************************************************************************
+ *                      Update sleep_log by sleep Log Id - "PUT
+ *                      /sleep/:id"
+ ******************************************************************************/
+
+router.put('/:id', async (req, res, next) => {
+  const {id} = req.params;
+  try {
+    const sleepLog = await sleepModel.update(id, req.body)
+    res.status(201).json(sleepLog)
+  } catch (err) {
+    console.log(err.stack);
+    next(err);
+  }
+})
+
 
 /******************************************************************************
  *                      Get sleep_log by id - "GET
@@ -38,31 +54,12 @@ router.post('/current-user', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const [log] = await sleepModel.getById(req.params.id)
-      res.status(200).json(log)
-  } catch(err) {
+    res.status(200).json(log)
+  } catch (err) {
     console.log(err.stack);
     next(err);
   }
 })
-
-/******************************************************************************
- *                      Get sleep_log by userId - "GET
- *                      /sleep//current-user"
- ******************************************************************************/
-
-// router.get('/current-user',  async (req, res, next) => {
-//   try {
-//     const user = await sleepModel.getById(req.id)
-//     if (user) {
-//       res.status(200).json(sleepModel[0])
-//     } else {
-//       res.status(404).json({message: `Error fetching sleep log, try again later`});
-//     }
-//   } catch (err) {
-//     console.log(err.stack);
-//     next(err);
-//   }
-// });
 
 
 /******************************************************************************
