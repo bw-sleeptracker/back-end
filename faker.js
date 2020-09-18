@@ -1,4 +1,6 @@
 const faker = require('faker');
+const bcrypt = require('bcryptjs');
+const {v4: uuidv4} = require('uuid');
 const db = require('./data/dbConfig');
 
 const desiredFakeData = 100
@@ -90,7 +92,7 @@ const floodSleepLog = async () => {
         date: faker.date.past(),
         bedtime: goToSleep,
         wake_time: wakeUp,
-        total_hours_slept: faker.random.number({min:5, max: 9}),
+        total_hours_slept: faker.random.number({min: 5, max: 9}),
         average_quality: faker.random.number({min: 1, max: 4}),
         users_id: user.id,
         aggregate_week_data_id: data.id,
@@ -102,8 +104,6 @@ const floodSleepLog = async () => {
 
   }
 }
-
-
 
 const floodQualityLog = async () => {
   // getting a list of all user ids and aggregate_data ids
@@ -127,11 +127,62 @@ const floodQualityLog = async () => {
 
   }
 }
+
+const createAdmins = async () => {
+  const admins = [
+    {
+      admin: true,
+      email: 'jess@email.com',
+      username: 'Jess',
+      password: 'unit4',
+    },
+    {
+      admin: true,
+      email: 'Daniel',
+      username: 'daniel@email.com',
+      password: 'unit4',
+    },
+    {
+      admin: true,
+      email: 'kevin@email.com',
+      username: 'Kevin',
+      password: 'unit3',
+    },
+    {
+      admin: true,
+      email: 'kasi@email.com',
+      username: 'Kasi',
+      password: 'unit3',
+    },
+    {
+      admin: true,
+      email: 'tom@email.com',
+      username: 'Tom',
+      password: 'unit2',
+    },
+    {
+      admin: true,
+      email: 'seth@email.com',
+      username: 'Seth',
+      password: 'unit1',
+    },
+
+  ]
+  admins.map(admin => {
+    setTimeout(async () => {
+      const hash = bcrypt.hashSync(admin.password, 10);
+      admin.password = hash;
+      admin.id = uuidv4();
+      return db('users')
+        .insert(admin)
+        .catch(err => console.log(err));
+    }, 1000);
+  })
+}
 // floodUsers()
 // floodAggregateMonth()
 // floodAggregateWeek()
 // floodSleepLog()
 // floodQualityLog()
-
-
+createAdmins()
 
