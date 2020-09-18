@@ -24,20 +24,35 @@ module.exports = {
     migrations: {
       directory: "./data/migrations",
     },
-
   },
 
-  testing: {
-    client: 'sqlite3',
-    useNullAsDefault: true,
-    connection: ':memory:',
-    migrations: {
-      directory: './data/migrations',
-    },
-    seeds: {
-      directory: './data/seeds',
-    },
-  },
+  // testing: {
+  //   client: 'sqlite3',
+  //   useNullAsDefault: true,
+  //   connection: ':memory:',
+  //   migrations: {
+  //     directory: './data/migrations',
+  //   },
+  //   seeds: {
+  //     directory: './data/seeds',
+  //   },
+  // },
+  // * pg testing
+  //   testing: {
+  //   client: "pg",
+  // 	useNullAsDefault: true,
+  // 	connection: {
+  //     host: `${process.env.DB_TEST_HOST}`,
+  //     user: `${process.env.DB_TEST_USER}`,
+  //     password: `${process.env.DB_TEST_PASSWORD}`,
+  //     database: `${process.env.DB_TEST_NAME}`,  	},
+  // 	migrations: {
+  // 		directory: "./data/migrations",
+  // 	},
+  // 	seeds: {
+  // 		directory: "./data/seeds",
+  // 	}
+  // },
 
   production: {
     client: "pg",

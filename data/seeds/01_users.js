@@ -6,6 +6,7 @@ exports.seed = async function (knex, Promise) {
       username: 'admin',
       password: 'password',
       email: 'admin@admin.com',
+      recommended_hours: 8,
       admin: true,
     },
       {
@@ -13,6 +14,7 @@ exports.seed = async function (knex, Promise) {
         username: 'joe',
         password: 'password',
         email: 'joe@joe.com',
+        recommended_hours: 8,
         admin: true,
       }
     ])

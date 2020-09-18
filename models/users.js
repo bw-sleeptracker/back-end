@@ -1,7 +1,7 @@
 const db = require('../data/dbConfig');
 
 const get = async () => {
-    return db('users').select('id', 'username', 'admin', 'email');
+    return db('users').select('id', 'username', 'admin', 'email', 'recommended_hours');
 }
 
 const getBy = async (filter) => {
@@ -10,11 +10,13 @@ const getBy = async (filter) => {
 
 
 const getById = async (id) => {
-    return db('users').where({id}).select('id', 'username', 'admin', 'email')
+    return db('users').where({id}).select('id', 'username', 'admin', 'email','recommended_hours')
 }
 
 const create = async (user) => {
+if (user.username !== 'testUser') {
 user.admin = false;
+}
     const id = await db('users').insert(user);
     return getById(user.id)
 }

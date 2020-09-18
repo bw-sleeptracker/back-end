@@ -16,7 +16,6 @@ exports.seed = async function (knex, promise) {
         bedtime_score: 1,
         sleep_log_id: '2c56584b-aad7-48c6-a84d-4b57d093bc0f',
       },
-
     ])
 
 };

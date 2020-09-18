@@ -22,7 +22,7 @@ const contentType = "application/json; charset=utf-8"
 
 // * clears db and reseeds it to initial data before each individual test
 beforeEach(async () => {
-  await db.migrate.latest();
+  // await db.migrate.latest();
   return db.seed.run();
 });
 // * closes any database connections after the tests in case it stays open
@@ -72,14 +72,14 @@ describe('users integration tests', () => {
     }
   })
 
-  it('PUT /users/current-user, (send error if no body data sent to update' +
-    ' in body to update)', async () => {
+  it('PUT /users/current-user, (send error if no data sent to update' +
+    ' in body)', async () => {
     await login();
     if (token !== undefined) {
       const res = await supertest(server).put('/users/current-user').send({token: token});
       expect(res.statusCode).toBe(400);
       expect(res.headers['content-type']).toBe(contentType);
-      expect(res.body.message).toBe('Bad Request, no data sent');
+      expect(res.body.message).toBe("Bad Request, no data sent");
 
     }
   })

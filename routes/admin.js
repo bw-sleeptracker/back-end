@@ -50,7 +50,6 @@ router.delete('/users/:id', validateUserId(), async (req, res, next) => {
     } else {
       res.status(404).json({message: 'Error deleting user, try again later'})
     }
-
   } catch (err) {
     console.log(err.stack);
     next(err);

@@ -12,7 +12,6 @@
 
 |Parameters| Description|
 |:-------|:--------------|
-|admin|_boolean_, _optional_|
 |username|_string_, _required_, must be unique|
 |email|_string_, _required_, must be unique| 
 |password|_string_, _required_|
@@ -49,6 +48,7 @@
     "id": "c0137caf-69db-4040-8fef-7490ff829d45",
     "username": "JohnDoe",
     "email": "email@email.com",
+    "recommended_hours": 8,
     "admin": 1
 }   
 ```
@@ -80,6 +80,7 @@
     "id": "c0137caf-69db-4040-8fef-7490ff829d45",
     "username": "JohnDoe",
     "email": "email@email.com",
+    "recommended_hours": 8,
     "admin": 1
 }   
 ```
@@ -94,6 +95,7 @@
     "id": "c0137caf-69db-4040-8fef-7490ff829d45",
     "username": "JohnDoe",
     "email": "email@email.com",
+    "recommended_hours": 8,
     "admin": 1
 }   
 ```
@@ -103,3 +105,128 @@
 * Requires an admin user to be logged in 
 * Requires a user Id to delete
 * Returns a status code of 204 if delete user successful
+
+## /sleep Endpoints
+### sleep/current-user
+#### POST
+* Requires user to be logged in
+* Returns a JSON object containing newly created sleep log data
+
+|Parameters| Description|
+|:-------|:--------------|
+|bedtime|_string_, _required_, format: "2020-09-17 23:00:00"|
+```js
+{
+    "id": "eed6c951-b048-4274-a61e-bba8c8eb29b5",
+    "bedtime": "2020-09-17T23:00:00.000Z",
+    "date": "2020-09-18T04:00:00.000Z",
+    "wake_time": null,
+    "total_hours_slept": null,
+    "average_quality": 0
+}   
+```
+### sleep/:id
+#### PUT
+* Requires user to be logged in
+* Requires a valid sleep log id for endpoint :id
+* Returns a JSON object containing updated sleep log data
+
+|Parameters| Description|
+|:-------|:--------------|
+|wake_time|_string_, _required_, format: "2020-09-17 23:00:00"|
+|wake_score|_integer (between 1-4)_, _optional_|
+|day_score|_integer (between 1-4)_, _optional_|
+|bedtime_score|_integer (between 1-4)_, _optional_|
+
+```js
+{
+    "date": "2020-09-18T04:00:00.000Z",
+    "bedtime": "2020-09-17T23:00:00.000Z",
+    "wake_time": "2020-09-18T06:00:00.000Z",
+    "total_hours_slept": 7,
+    "average_quality": 2,
+    "wake_score": 2,
+    "day_score": 1,
+    "bedtime_score": 3
+} 
+```
+
+### sleep/all/current-user
+#### GET
+* Requires user to be logged in
+* Returns a JSON object containing all sleep log data for a user by user Id
+ ordered by date
+
+```js
+[
+    {
+        "date": "2020-09-18T04:00:00.000Z",
+        "bedtime": "2020-09-17T23:00:00.000Z",
+        "wake_time": null,
+        "total_hours_slept": null,
+        "average_quality": 0,
+        "wake_score": 0,
+        "day_score": 0,
+        "bedtime_score": 0
+    },
+    {
+        "date": "2020-09-18T04:00:00.000Z",
+        "bedtime": "2020-09-17T23:00:00.000Z",
+        "wake_time": "2020-09-18T06:00:00.000Z",
+        "total_hours_slept": 7,
+        "average_quality": 2,
+        "wake_score": 2,
+        "day_score": 1,
+        "bedtime_score": 3
+    }
+]
+```
+### sleep/latest/current-user
+#### GET
+* Requires user to be logged in
+* Returns a JSON object containing most recent sleep log data for a user by
+ user id ordered by date
+
+```js
+
+    {
+        "date": "2020-09-18T04:00:00.000Z",
+        "bedtime": "2020-09-17T23:00:00.000Z",
+        "wake_time": null,
+        "total_hours_slept": null,
+        "average_quality": 0,
+        "wake_score": 0,
+        "day_score": 0,
+        "bedtime_score": 0
+    }
+
+```
+### sleep/current-user/?date={date}
+#### GET
+* Requires user to be logged in
+* Requires a date string in the format 2020-09-18
+* Returns a JSON object containing sleep log data for a user by
+  date query
+
+```js
+
+    {
+        "date": "2020-09-18T04:00:00.000Z",
+        "bedtime": "2020-09-17T23:00:00.000Z",
+        "wake_time": null,
+        "total_hours_slept": null,
+        "average_quality": 0,
+        "wake_score": 0,
+        "day_score": 0,
+        "bedtime_score": 0
+    }
+
+```
+### sleep/:id
+#### DELETE
+* Requires user to be logged in
+* Requires a valid sleep log id for endpoint :id
+* Returns a status code of 204 if sleep log deleted successfully
+
+
+
