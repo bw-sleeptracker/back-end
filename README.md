@@ -220,4 +220,11 @@
     }
 
 ```
+### sleep/:id
+#### DELETE
+* Requires user to be logged in
+* Requires a valid sleep log id for endpoint :id
+* Returns a status code of 204 if  successful
+
+
 
