@@ -15,6 +15,7 @@ const validateUserUpdateBody = require('../middleware/validateUserUpdateBody');
    router.get('/current-user', validateToken(), async (req, res, next) => {
     try {
       const user = await usersModel.getById(req.id)
+      console.log(user)
       if (user) {
         res.status(200).json(user[0])
       } else {

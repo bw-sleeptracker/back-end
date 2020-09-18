@@ -7,7 +7,7 @@ exports.up = function (knex) {
       tbl.string('email', 256).notNullable().unique();
       tbl.string("password", 256).notNullable();
       tbl.boolean('admin').defaultTo(false);
-      tbl.double("recommended_hours")
+      tbl.double("recommended_hours").defaultTo(8)
     })
 
     .createTable("aggregate_month_data", tbl => {
