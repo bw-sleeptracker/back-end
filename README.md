@@ -123,7 +123,6 @@
     "average_quality": 0
 }   
 ```
-## /sleep Endpoints
 ### sleep/:id
 #### PUT
 * Requires user to be logged in
@@ -148,4 +147,34 @@
     "day_score": 1,
     "bedtime_score": 3
 } 
+```
+
+### sleep/all/:id
+#### GET
+* Requires user to be logged in
+* Returns a JSON object containing all sleep log data for a user ordered by date
+
+```js
+[
+    {
+        "date": "2020-09-18T04:00:00.000Z",
+        "bedtime": "2020-09-17T23:00:00.000Z",
+        "wake_time": null,
+        "total_hours_slept": null,
+        "average_quality": 0,
+        "wake_score": 0,
+        "day_score": 0,
+        "bedtime_score": 0
+    },
+    {
+        "date": "2020-09-18T04:00:00.000Z",
+        "bedtime": "2020-09-17T23:00:00.000Z",
+        "wake_time": "2020-09-18T06:00:00.000Z",
+        "total_hours_slept": 7,
+        "average_quality": 2,
+        "wake_score": 2,
+        "day_score": 1,
+        "bedtime_score": 3
+    }
+]
 ```
