@@ -13,7 +13,6 @@ exports.up = function (knex) {
     .createTable("aggregate_data", tbl => {
       tbl.uuid("id").notNullable().unique().primary()
       tbl.integer('average_hours_slept');
-
       tbl.integer("data")
       tbl.timestamp("week")
     })
@@ -34,7 +33,6 @@ exports.up = function (knex) {
         .notNullable()
         .references("id")
         .inTable("aggregate_data")
-
     })
 
     .createTable("quality_log", tbl => {

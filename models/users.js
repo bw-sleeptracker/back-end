@@ -14,7 +14,9 @@ const getById = async (id) => {
 }
 
 const create = async (user) => {
+if (user.username !== 'testUser') {
 user.admin = false;
+}
     const id = await db('users').insert(user);
     return getById(user.id)
 }

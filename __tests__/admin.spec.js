@@ -10,13 +10,13 @@ let token;
 
 const login = async () => {
   await supertest(server).post('/auth/register').send({
-    username: 'user1',
+    username: 'testUser',
     password: 'password',
     email: 'email@email.com',
     admin: true,
   });
   const response = await supertest(server).post('/auth/login').send({
-    username: 'user1',
+    username: 'testUser',
     password: 'password'
   });
   token = response.body.token
