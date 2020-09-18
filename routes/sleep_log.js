@@ -61,6 +61,20 @@ router.get('/all/:id', async (req, res, next) => {
   }
 })
 
+/******************************************************************************
+ *                      Get most recent sleep log by userid - "GET
+ *                      /sleep/latest/:id"
+ ******************************************************************************/
+
+router.get('/latest/:id', async (req, res, next) => {
+  try {
+    const log = await sleepModel.getLatestByUserId(req.params.id)
+    res.status(200).json(log)
+  } catch (err) {
+    console.log(err.stack);
+    next(err);
+  }
+})
 
 /******************************************************************************
  *                      Get sleep_log by id - "GET
@@ -76,6 +90,8 @@ router.get('/:id', async (req, res, next) => {
     next(err);
   }
 })
+
+
 
 
 /******************************************************************************
