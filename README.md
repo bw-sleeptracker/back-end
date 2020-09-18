@@ -103,3 +103,23 @@
 * Requires an admin user to be logged in 
 * Requires a user Id to delete
 * Returns a status code of 204 if delete user successful
+
+## /sleep Endpoints
+### sleep/current-user
+#### POST
+* Requires user to be logged in
+* Returns a JSON object containing new sleep log data
+
+|Parameters| Description|
+|:-------|:--------------|
+|bedtime|_string_, _required_, format: "2020-09-17 23:00:00"|
+```js
+{
+    "id": "eed6c951-b048-4274-a61e-bba8c8eb29b5",
+    "bedtime": "2020-09-17T23:00:00.000Z",
+    "date": "2020-09-18T04:00:00.000Z",
+    "wake_time": null,
+    "total_hours_slept": null,
+    "average_quality": 0
+}   
+```
