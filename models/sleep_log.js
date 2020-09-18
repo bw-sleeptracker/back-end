@@ -130,6 +130,11 @@ const getByDate = async (id, date) => {
   return log
 }
 
+const remove = async (id) => {
+  await db('quality_log').where('sleep_log_id', id).delete()
+  return db('sleep_log').where({id}).delete()
+}
+
 
 module.exports = {
   getById,
@@ -138,4 +143,5 @@ module.exports = {
   getAllByUserId,
   getLatestByUserId,
   getByDate,
+  remove,
 }

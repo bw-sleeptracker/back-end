@@ -111,6 +111,21 @@ router.get('/:id', validateSleepLogId(), async (req, res, next) => {
   }
 })
 
+/******************************************************************************
+ *                      Delete sleep_log by id - "GET
+ *                      /sleep/:id"
+ ******************************************************************************/
+
+router.delete('/:id', validateSleepLogId(), async (req, res, next) => {
+  try {
+    await sleepModel.remove(req.params.id)
+    res.status(204).end()
+  } catch (err) {
+    console.log(err.stack);
+    next(err);
+  }
+})
+
 
 
 
