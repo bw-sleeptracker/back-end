@@ -20,24 +20,44 @@ const floodUsers = async () => {
   }
 }
 
-
-
-const floodAggregate = async () => {
+const floodAggregateMonth = async () => {
   for (let i = 0; i < desiredFakeData; i++) {
     setTimeout(async () => {
       const agData = {
         id: faker.random.uuid(),
+        average_hours_slept: faker.random.number({min: 5, max: 9}),
         data: faker.random.number({min: 1, max: 4}),
-        week: faker.date.past(),
-
+        month: faker.date.past(),
       }
-
-      return db('aggregate_data')
+      return db('aggregate_month_data')
         .insert(agData)
         .catch(err => log(err));
     }, 1000);
   }
 }
+
+
+const floodAggregateWeek = async () => {
+  const dataIds = await db('aggregate_month_data').select('id')
+  for (let i = 0; i < desiredFakeData; i++) {
+    data = dataIds[Math.floor(Math.random() * dataIds.length)];
+    setTimeout(async () => {
+      const agData = {
+        id: faker.random.uuid(),
+        average_hours_slept: faker.random.number({min: 5, max: 9}),
+        data: faker.random.number({min: 1, max: 4}),
+        week: faker.date.past(),
+        aggregate_month_data_id: data.id,
+      }
+      return db('aggregate_week_data')
+        .insert(agData)
+        .catch(err => log(err));
+    }, 1000);
+  }
+}
+floodUsers()
+floodAggregateMonth()
+floodAggregateWeek()
 
 let goToSleep
 let wakeUp
@@ -51,7 +71,7 @@ const createTime = () => {
 const floodSleepLog = async () => {
   // getting a list of all user ids and aggregate_data ids
   const users = await db('users').select('id')
-  const dataIds = await db('aggregate_data').select('id')
+  const dataIds = await db('aggregate_week_data').select('id')
 
   for (let i = 0; i < desiredFakeData; i++) {
     // generating a random user id and aggregate_data id each iteration
@@ -70,9 +90,10 @@ const floodSleepLog = async () => {
         date: faker.date.past(),
         bedtime: goToSleep,
         wake_time: wakeUp,
+        total_hours_slept: faker.random.number({min:5, max: 9}),
         average_quality: faker.random.number({min: 1, max: 4}),
         users_id: user.id,
-        aggregate_data_id: data.id,
+        aggregate_week_data_id: data.id,
       }
       return db('sleep_log')
         .insert(sleepData)
@@ -81,6 +102,7 @@ const floodSleepLog = async () => {
 
   }
 }
+
 
 
 const floodQualityLog = async () => {
@@ -105,7 +127,11 @@ const floodQualityLog = async () => {
 
   }
 }
-floodQualityLog()
+// floodUsers()
+// floodAggregateMonth()
+// floodAggregateWeek()
+// floodSleepLog()
+// floodQualityLog()
 
 
 
