@@ -126,7 +126,7 @@
 ### sleep/:id
 #### PUT
 * Requires user to be logged in
-* Requires a valid sleep log id
+* Requires a valid sleep log id for endpoint :id
 * Returns a JSON object containing updated sleep log data
 
 |Parameters| Description|
@@ -149,10 +149,11 @@
 } 
 ```
 
-### sleep/all/:id
+### sleep/all/current-user
 #### GET
 * Requires user to be logged in
-* Returns a JSON object containing all sleep log data for a user ordered by date
+* Returns a JSON object containing all sleep log data for a user by user Id
+ ordered by date
 
 ```js
 [
@@ -178,3 +179,24 @@
     }
 ]
 ```
+### sleep/latest/current-user
+#### GET
+* Requires user to be logged in
+* Returns a JSON object containing most recent sleep log data for a user by
+ user id ordered by date
+
+```js
+
+    {
+        "date": "2020-09-18T04:00:00.000Z",
+        "bedtime": "2020-09-17T23:00:00.000Z",
+        "wake_time": null,
+        "total_hours_slept": null,
+        "average_quality": 0,
+        "wake_score": 0,
+        "day_score": 0,
+        "bedtime_score": 0
+    }
+
+```
+

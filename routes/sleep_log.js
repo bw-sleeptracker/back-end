@@ -48,12 +48,12 @@ router.put('/:id', async (req, res, next) => {
 /******************************************************************************
  *                      Get all sleep logs for a current user -
  *                      "GET
- *                      /sleep/all/:id"
+ *                      /sleep/all/current-user"
  ******************************************************************************/
 
-router.get('/all/:id', async (req, res, next) => {
+router.get('/all/current-user', async (req, res, next) => {
   try {
-    const logs = await sleepModel.getAllByUserId(req.params.id)
+    const logs = await sleepModel.getAllByUserId(req.id)
     res.status(200).json(logs)
   } catch (err) {
     console.log(err.stack);
@@ -62,13 +62,13 @@ router.get('/all/:id', async (req, res, next) => {
 })
 
 /******************************************************************************
- *                      Get most recent sleep log by userid - "GET
- *                      /sleep/latest/:id"
+ *                      Get most recent sleep for current user- "GET
+ *                      /sleep/latest/current-user"
  ******************************************************************************/
 
-router.get('/latest/:id', async (req, res, next) => {
+router.get('/latest/current-user', async (req, res, next) => {
   try {
-    const log = await sleepModel.getLatestByUserId(req.params.id)
+    const log = await sleepModel.getLatestByUserId(req.id)
     res.status(200).json(log)
   } catch (err) {
     console.log(err.stack);
