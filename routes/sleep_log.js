@@ -14,24 +14,40 @@ const validateBody = require('../middleware/validateBody');
 
 /******************************************************************************
  *                      Create sleep_log by userId - "POST
- *                      /sleep/users/current-user"
+ *                      /sleep/current-user"
  ******************************************************************************/
 
 router.post('/current-user', async (req, res, next) => {
   const {bedtime} = req.body;
     try {
-    const sleepLog = await sleepModel.create(req.id, bedtime)
-      res.status(201).json(sleepLog)
+    const sleepLogId = await sleepModel.create(req.id, bedtime)
+    const [log] = await sleepModel.getById(sleepLogId)
+      console.log({log})
+      res.status(201).json(log)
   } catch(err) {
     console.log(err.stack);
     next(err);
   }
 })
 
+/******************************************************************************
+ *                      Get sleep_log by id - "GET
+ *                      /sleep/:id"
+ ******************************************************************************/
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const [log] = await sleepModel.getById(req.params.id)
+      res.status(200).json(log)
+  } catch(err) {
+    console.log(err.stack);
+    next(err);
+  }
+})
 
 /******************************************************************************
  *                      Get sleep_log by userId - "GET
- *                      /sleep/users/current-user"
+ *                      /sleep//current-user"
  ******************************************************************************/
 
 // router.get('/current-user',  async (req, res, next) => {

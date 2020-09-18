@@ -24,9 +24,7 @@ const create = async (userId, bedtime) => {
     ...logData,
     aggregate_week_data_id: weekLogId
   }).returning('id')
- const [log] =  await getById(logId)
-  return log
-
+  return logId
 }
 
 const getById = async (id) => {
