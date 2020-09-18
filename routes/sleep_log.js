@@ -19,10 +19,9 @@ const validateBody = require('../middleware/validateBody');
 
 router.post('/current-user', async (req, res, next) => {
   const {bedtime} = req.body;
-  console.log(req.body)
     try {
     const sleepLog = await sleepModel.create(req.id, bedtime)
-      res.status(204).end()
+      res.status(201).json(sleepLog)
   } catch(err) {
     console.log(err.stack);
     next(err);
