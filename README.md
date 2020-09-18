@@ -123,3 +123,29 @@
     "average_quality": 0
 }   
 ```
+## /sleep Endpoints
+### sleep/:id
+#### PUT
+* Requires user to be logged in
+* Requires a valid sleep log id
+* Returns a JSON object containing updated sleep log data
+
+|Parameters| Description|
+|:-------|:--------------|
+|wake_time|_string_, _required_, format: "2020-09-17 23:00:00"|
+|wake_score|_integer (between 1-4)_, _optional_|
+|day_score|_integer (between 1-4)_, _optional_|
+|bedtime_score|_integer (between 1-4)_, _optional_|
+
+```js
+{
+    "date": "2020-09-18T04:00:00.000Z",
+    "bedtime": "2020-09-17T23:00:00.000Z",
+    "wake_time": "2020-09-18T06:00:00.000Z",
+    "total_hours_slept": 7,
+    "average_quality": 2,
+    "wake_score": 2,
+    "day_score": 1,
+    "bedtime_score": 3
+} 
+```
