@@ -101,13 +101,12 @@ const getAllByUserId = async (id) => {
 }
 
 const getLatestByUserId = async (id) => {
-    const allLogs = await db('sleep_log as s')
+    const log = await db('sleep_log as s')
     .where('s.users_id', id)
     .join('quality_log as q',  'q.sleep_log_id', 's.id')
     .select('s.date', 's.bedtime', 's.wake_time', 's.total_hours_slept', 's.average_quality', 'q.wake_score', 'q.day_score', 'q.bedtime_score')
       .orderBy('s.date', 'desc').first()
-
-  return allLogs
+  return log
 }
 
 const getById = async (id) => {
@@ -121,11 +120,22 @@ const getById = async (id) => {
   )
 }
 
+const getByDate = async (id, date) => {
+    const log = await db('sleep_log as s')
+    .where('s.users_id', id)
+      .where('s.date', date)
+    .join('quality_log as q',  'q.sleep_log_id', 's.id')
+    .select('s.date', 's.bedtime', 's.wake_time', 's.total_hours_slept', 's.average_quality', 'q.wake_score', 'q.day_score', 'q.bedtime_score')
+      .orderBy('s.date', 'desc').first()
+  return log
+}
+
 
 module.exports = {
   getById,
   create,
   update,
   getAllByUserId,
-  getLatestByUserId
+  getLatestByUserId,
+  getByDate,
 }

@@ -46,6 +46,22 @@ router.put('/:id', async (req, res, next) => {
 })
 
 /******************************************************************************
+ *                      Get sleep_log by date - "GET
+ *                      /sleep/date"
+ ******************************************************************************/
+
+router.get('/date', async (req, res, next) => {
+  console.log(req.query.date)
+  try {
+    const log = await sleepModel.getByDate(req.id, req.query.date)
+    res.status(200).json(log)
+  } catch (err) {
+    console.log(err.stack);
+    next(err);
+  }
+})
+
+/******************************************************************************
  *                      Get all sleep logs for a current user -
  *                      "GET
  *                      /sleep/all/current-user"
@@ -90,6 +106,7 @@ router.get('/:id', async (req, res, next) => {
     next(err);
   }
 })
+
 
 
 
