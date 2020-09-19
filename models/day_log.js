@@ -16,12 +16,9 @@ const create = async (userId, bedtime) => {
     total_hours_slept: null,
     average_quality: 0,
   }
-  // TODO write logic to check it log for month and week already made before
-  //  creating
-  //create new month log if applicable
-  // const monthLogId = await monthModel.create(userId);
-  // create new week log if applicable
-  // const weekLogId = await weekModel.create(userId);
+  //  check if month and week logs already made and create them if not
+  const monthLogId = await monthModel.create(userId);
+  const weekLogId = await weekModel.create(userId);
   const [logId] = await db('day_log').insert(logData).returning('id')
   const qualityLogId = await qualityModel.create(logId);
   return logId

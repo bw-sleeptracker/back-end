@@ -26,7 +26,7 @@ exports.up = function (knex) {
 
     .createTable("week_log", tbl => {
       tbl.uuid("id").notNullable().unique().primary();
-      tbl.string('week_of_year').notNullable().unique();
+      tbl.string('week_of_year').notNullable();
       tbl.double('average_hours_slept');
       tbl.double("average_quality")
       tbl.uuid("users_id")
