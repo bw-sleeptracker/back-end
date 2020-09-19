@@ -38,21 +38,21 @@ module.exports = {
   //   },
   // },
   // * pg testing
-  //   testing: {
-  //   client: "pg",
-  // 	useNullAsDefault: true,
-  // 	connection: {
-  //     host: `${process.env.DB_TEST_HOST}`,
-  //     user: `${process.env.DB_TEST_USER}`,
-  //     password: `${process.env.DB_TEST_PASSWORD}`,
-  //     database: `${process.env.DB_TEST_NAME}`,  	},
-  // 	migrations: {
-  // 		directory: "./data/migrations",
-  // 	},
-  // 	seeds: {
-  // 		directory: "./data/seeds",
-  // 	}
-  // },
+    testing: {
+    client: "pg",
+  	useNullAsDefault: true,
+  	connection: {
+      host: `${process.env.DB_TEST_HOST}`,
+      user: `${process.env.DB_TEST_USER}`,
+      password: `${process.env.DB_TEST_PASSWORD}`,
+      database: `${process.env.DB_TEST_NAME}`,  	},
+  	migrations: {
+  		directory: "./data/migrations",
+  	},
+  	seeds: {
+  		directory: "./data/seeds",
+  	}
+  },
 
   production: {
     client: "pg",

@@ -54,7 +54,6 @@ router.put('/:id', validateUpdateLogBody(), validateSleepLogId(), async (req, re
  ******************************************************************************/
 
 router.get('/current-user', validateDateQuery(),  async (req, res, next) => {
-  console.log(req.query.date)
   try {
     const log = await sleepModel.getByDate(req.id, req.query.date)
     res.status(200).json(log)
