@@ -40,7 +40,7 @@ router.post('/current-user', validateCreateLogBody(), async (req, res, next) => 
 router.put('/:id', validateUpdateLogBody(), validateSleepLogId(), async (req, res, next) => {
   const {id} = req.params;
   try {
-    const sleepLog = await dayModel.update(id, req.body)
+    const sleepLog = await dayModel.update(req.id, id, req.body)
     res.status(201).json(sleepLog)
   } catch (err) {
     console.log(err.stack);

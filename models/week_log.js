@@ -2,26 +2,8 @@ const db = require('../data/dbConfig');
 const {v4: uuidv4} = require('uuid');
 const moment = require('moment')
 
-const create = async (userId) => {
-  const week_of_year = `${moment().week()}/${moment().year()}`
-  //create new week data table
-  // check to see if week_of_year already exists for userId first
-  const duplicate = await checkDuplicateWeek(userId, week_of_year);
-  let weekLogId
-  if (duplicate.length === 0) {
-   [weekLogId] = await db('week_log').insert({
-    id: uuidv4(),
-    users_id: userId,
-    week_of_year: `${moment().week()}/${moment().year()}`,
-    average_hours_slept: null,
-    average_quality: null,
-  },).returning('id')
-    console.log(weekLogId)
-  }
-  return weekLogId;
-}
-const checkDuplicateWeek = async (userId, week_of_year) => {
-  // console.log({week_of_year})
+
+const checkIfWeekExists = async (userId, week_of_year) => {
   return db('week_log').where('users_id', userId).where('week_of_year', week_of_year);
 }
 
@@ -29,9 +11,56 @@ const getBy = async (filter) => {
   return db("week_log").where(filter).orderBy("id");
 }
 
+const create = async (userId) => {
+  const week_of_year = `${moment().week()}/${moment().year()}`
+  //create new week data table
+  // check to see if week_of_year already exists for userId first
+  const duplicate = await checkIfWeekExists(userId, week_of_year);
+  let weekLogId
+  if (duplicate.length === 0) {
+    // if week log does not exist only create a new on on sundays
+    if (moment().day() === 7) {
+      [weekLogId] = await db('week_log').insert({
+        id: uuidv4(),
+        users_id: userId,
+        week_of_year: `${moment().week()}/${moment().year()}`,
+        average_hours_slept: null,
+        average_quality: null,
+      },).returning('id')
+      console.log(weekLogId)
+    }
+  }
+  return weekLogId;
+}
+
+const update = async (userId, dayData) => {
+  const {sleptHours, avgQuality} = dayData
+  // get current week avg hours slept and quality and avg in the new numbers
+  const week_of_year = `${moment().week()}/${moment().year()}`
+  const [log] = await db('week_log').where({week_of_year}).where('users_id', userId)
+  const oldHours = log.average_hours_slept;
+  const oldQuality = log.average_quality;
+//  get day count of week for average
+  let dayCount = (moment().day())
+//  add todays entries plus old avgs divided by day count for new average
+  let newHourAvg = ((sleptHours + oldHours) / dayCount).toFixed(2)
+  let newQuality = ((avgQuality + oldQuality) / dayCount).toFixed(2)
+ // finally update the week log
+    await db('week_log')
+      .where({week_of_year})
+      .where('users_id', userId)
+      .update({
+        average_hours_slept: newHourAvg,
+        average_quality: newQuality
+      }).select('id', 'week_of_year', 'average_hours_slept', 'average_quality')
+    const [updatedLog] = await db('week_log').where({week_of_year}).where('users_id', userId)
+  return updatedLog
+}
+
 
 module.exports = {
   create,
-  checkDuplicateWeek,
+  checkIfWeekExists,
   getBy,
+  update,
 }

@@ -3,6 +3,7 @@ const {v4: uuidv4} = require('uuid');
 const monthModel = require('./month_log')
 const weekModel = require('./week_log')
 const qualityModel = require('./quality_log')
+const moment = require('moment')
 
 
 const checkDuplicateDay = async (userId, month_of_year) => {
@@ -50,7 +51,7 @@ const getAverageQualityForOneDay = (wakeScore, dayScore, bedScore) => {
 }
 
 
-const update = async (id, sleepData) => {
+const update = async (userId, id, sleepData) => {
   let logUpdate = {
     wake_time: sleepData.wake_time,
     bed_time: sleepData.bedtime || undefined,
@@ -79,22 +80,54 @@ const update = async (id, sleepData) => {
   }
   await db('day_log').where({id}).update(logUpdate)
   // if all scores are inputted calculate the average quality score
+  let averageQualityScore
+  let updatedWeek
   if (qualityLog.wake_score !== 0 && qualityLog.day_score !== 0 && qualityLog.bedtime_score !== 0) {
-    const averageQualityScore = getAverageQualityForOneDay(qualityLog.wake_score, qualityLog.day_score, qualityLog.bedtime_score)
+    averageQualityScore = getAverageQualityForOneDay(qualityLog.wake_score, qualityLog.day_score, qualityLog.bedtime_score)
     // update the average score
     logUpdate = {
       average_quality: averageQualityScore,
     }
     await db('day_log').where({id}).update(logUpdate)
+    // update the corresponding week log if there is one
+    const week_of_year = `${moment().week()}/${moment().year()}`
+    let exists = await weekModel.checkIfWeekExists(userId, week_of_year)
+    console.log(exists)
+    if (exists.length > 0) {
+      let dayData = {
+        sleptHours: sleptHours,
+        avgQuality: averageQualityScore
+      }
+      updatedWeek = weekModel.update(userId, dayData)
+    }
   }
-  // update the corresponding week log
-
-
-  // return all the data from sleep log and quality log
-  const [completeLog] = await db('day_log as d')
-    .where('d.id', id)
-    .join('quality_log as q', 'q.day_log_id', 'd.id')
-    .select('d.id', 'd.date', 'd.bedtime', 'd.wake_time', 'd.total_hours_slept', 'd.average_quality', 'q.wake_score', 'q.day_score', 'q.bedtime_score')
+  // return all the data from sleep log and quality log and week log if
+  // applicable
+  let completed
+  if (updatedWeek) {
+    [completeLog] = await db('day_log as d')
+      .where('d.id', id)
+      .join('quality_log as q', 'q.day_log_id', 'd.id')
+      .join('week_log as w', 'w.users_id', 'd.users_id')
+      .where('w.week_of_year', `${moment().week()}/${moment().year()}`)
+      .select(
+        'd.id',
+        'd.date',
+        'd.bedtime',
+        'd.wake_time',
+        'd.total_hours_slept',
+        'd.average_quality',
+        'q.wake_score',
+        'q.day_score',
+        'q.bedtime_score',
+        'w.average_hours_slept as weekly_average_hours_slept',
+        'w.average_quality as weekly_average_quality')
+  } else {
+    [completeLog] = await db('day_log as d')
+      .where('d.id', id)
+      .join('quality_log as q', 'q.day_log_id', 'd.id')
+      .select('d.id', 'd.date', 'd.bedtime', 'd.wake_time', 'd.total_hours_slept', 'd.average_quality', 'q.wake_score', 'q.day_score', 'q.bedtime_score')
+  }
   return completeLog
 }
 
