@@ -106,9 +106,10 @@
 * Requires a user Id to delete
 * Returns a status code of 204 if delete user successful
 
-## /sleep Endpoints
-### sleep/current-user
+## sleep Endpoints 
+### day/current-user
 #### POST
+#### creates a new sleep log for current day
 * Requires user to be logged in
 * Returns a JSON object containing newly created sleep log data
 
@@ -125,8 +126,9 @@
     "average_quality": 0
 }   
 ```
-### sleep/:id
+### day/:id
 #### PUT
+#### updates a sleep day log by id
 * Requires user to be logged in
 * Requires a valid sleep log id for endpoint :id
 * Returns a JSON object containing updated sleep log data
@@ -140,6 +142,7 @@
 
 ```js
 {
+    "id": "844a7234-6a86-4241-aef5-3f562d7ae494",
     "date": "2020-09-18T04:00:00.000Z",
     "bedtime": "2020-09-17T23:00:00.000Z",
     "wake_time": "2020-09-18T06:00:00.000Z",
@@ -151,8 +154,9 @@
 } 
 ```
 
-### sleep/all/current-user
+### day/all/current-user
 #### GET
+
 * Requires user to be logged in
 * Returns a JSON object containing all sleep log data for a user by user Id
  ordered by date
@@ -160,6 +164,7 @@
 ```js
 [
     {
+        "id": "844a7234-6a86-4241-aef5-3f562d7ae494",
         "date": "2020-09-18T04:00:00.000Z",
         "bedtime": "2020-09-17T23:00:00.000Z",
         "wake_time": null,
@@ -170,6 +175,7 @@
         "bedtime_score": 0
     },
     {
+        "id": "844a7234-6a86-4241-aef5-3f562d7ae494",
         "date": "2020-09-18T04:00:00.000Z",
         "bedtime": "2020-09-17T23:00:00.000Z",
         "wake_time": "2020-09-18T06:00:00.000Z",
@@ -181,7 +187,7 @@
     }
 ]
 ```
-### sleep/latest/current-user
+### day/latest/current-user
 #### GET
 * Requires user to be logged in
 * Returns a JSON object containing most recent sleep log data for a user by
@@ -190,6 +196,7 @@
 ```js
 
     {
+        "id": "844a7234-6a86-4241-aef5-3f562d7ae494",
         "date": "2020-09-18T04:00:00.000Z",
         "bedtime": "2020-09-17T23:00:00.000Z",
         "wake_time": null,
@@ -201,7 +208,7 @@
     }
 
 ```
-### sleep/current-user/?date={date}
+### day/current-user/?date={date}
 #### GET
 * Requires user to be logged in
 * Requires a date string in the format 2020-09-18
@@ -211,6 +218,7 @@
 ```js
 
     {
+        "id": "844a7234-6a86-4241-aef5-3f562d7ae494",
         "date": "2020-09-18T04:00:00.000Z",
         "bedtime": "2020-09-17T23:00:00.000Z",
         "wake_time": null,
@@ -222,7 +230,7 @@
     }
 
 ```
-### sleep/:id
+### DAY/:id
 #### DELETE
 * Requires user to be logged in
 * Requires a valid sleep log id for endpoint :id

@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const sleepModel = require('../models/sleep_log');
+const dayModel = require('../models/day_log');
 const qualityModel = require('../models/quality_log');
-const weekModel = require('../models/aggregate_week_data');
-const monthModel = require('../models/aggregate_month_data');
+const weekModel = require('../models/week_log');
+const monthModel = require('../models/month_log');
 const usersModel = require('../models/users');
 const validateToken = require('../auth/validateToken');
 const validateUserId = require('../middleware/validateUserId');
@@ -16,15 +16,15 @@ const validateSleepLogId = require('../middleware/validateSleepLogId')
 
 
 /******************************************************************************
- *                      Create sleep_log by userId - "POST
- *                      /sleep/current-user"
+ *                      Create sleep day_log by userId - "POST
+ *                      /day/current-user"
  ******************************************************************************/
 
 router.post('/current-user', validateCreateLogBody(), async (req, res, next) => {
   const {bedtime} = req.body;
   try {
-    const sleepLogId = await sleepModel.create(req.id, bedtime)
-    const [log] = await sleepModel.getById(sleepLogId)
+    const sleepLogId = await dayModel.create(req.id, bedtime)
+    const [log] = await dayModel.getById(sleepLogId)
     res.status(201).json(log)
   } catch (err) {
     console.log(err.stack);
@@ -33,14 +33,14 @@ router.post('/current-user', validateCreateLogBody(), async (req, res, next) => 
 })
 
 /******************************************************************************
- *                      Update sleep_log by sleep Log Id - "PUT
- *                      /sleep/:id"
+ *                      Update sleep day_log by sleep Log Id - "PUT
+ *                      /day/:id"
  ******************************************************************************/
 
 router.put('/:id', validateUpdateLogBody(), validateSleepLogId(), async (req, res, next) => {
   const {id} = req.params;
   try {
-    const sleepLog = await sleepModel.update(id, req.body)
+    const sleepLog = await dayModel.update(id, req.body)
     res.status(201).json(sleepLog)
   } catch (err) {
     console.log(err.stack);
@@ -49,13 +49,13 @@ router.put('/:id', validateUpdateLogBody(), validateSleepLogId(), async (req, re
 })
 
 /******************************************************************************
- *                      Get sleep_log by date - "GET
- *                      /sleep/date"
+ *                      Get current users sleep day_log by date - "GET
+ *                      /day/current-user/date?={date}"
  ******************************************************************************/
 
 router.get('/current-user', validateDateQuery(),  async (req, res, next) => {
   try {
-    const log = await sleepModel.getByDate(req.id, req.query.date)
+    const log = await dayModel.getByDate(req.id, req.query.date)
     res.status(200).json(log)
   } catch (err) {
     console.log(err.stack);
@@ -64,14 +64,14 @@ router.get('/current-user', validateDateQuery(),  async (req, res, next) => {
 })
 
 /******************************************************************************
- *                      Get all sleep logs for a current user -
+ *                      Get all sleep day_logs for a current user -
  *                      "GET
- *                      /sleep/all/current-user"
+ *                      /day/all/current-user"
  ******************************************************************************/
 
 router.get('/all/current-user', async (req, res, next) => {
   try {
-    const logs = await sleepModel.getAllByUserId(req.id)
+    const logs = await dayModel.getAllByUserId(req.id)
     res.status(200).json(logs)
   } catch (err) {
     console.log(err.stack);
@@ -80,13 +80,13 @@ router.get('/all/current-user', async (req, res, next) => {
 })
 
 /******************************************************************************
- *                      Get most recent sleep for current user- "GET
- *                      /sleep/latest/current-user"
+ *                      Get most recent sleep day_logs for current user- "GET
+ *                      /day/latest/current-user"
  ******************************************************************************/
 
 router.get('/latest/current-user', async (req, res, next) => {
   try {
-    const log = await sleepModel.getLatestByUserId(req.id)
+    const log = await dayModel.getLatestByUserId(req.id)
     res.status(200).json(log)
   } catch (err) {
     console.log(err.stack);
@@ -94,14 +94,15 @@ router.get('/latest/current-user', async (req, res, next) => {
   }
 })
 
+// TODO consider moving to admin router
 /******************************************************************************
- *                      Get sleep_log by id - "GET
- *                      /sleep/:id"
+ *                      Get sleep day_log by id - "GET
+ *                      /day/:id"
  ******************************************************************************/
 
 router.get('/:id', validateSleepLogId(), async (req, res, next) => {
   try {
-    const [log] = await sleepModel.getById(req.params.id)
+    const [log] = await dayModel.getById(req.params.id)
     res.status(200).json(log)
   } catch (err) {
     console.log(err.stack);
@@ -111,12 +112,12 @@ router.get('/:id', validateSleepLogId(), async (req, res, next) => {
 
 /******************************************************************************
  *                      Delete sleep_log by id - "GET
- *                      /sleep/:id"
+ *                      /day/:id"
  ******************************************************************************/
 
 router.delete('/:id', validateSleepLogId(), async (req, res, next) => {
   try {
-    await sleepModel.remove(req.params.id)
+    await dayModel.remove(req.params.id)
     res.status(204).end()
   } catch (err) {
     console.log(err.stack);
