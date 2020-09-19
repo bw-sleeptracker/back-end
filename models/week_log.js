@@ -3,6 +3,14 @@ const {v4: uuidv4} = require('uuid');
 const moment = require('moment')
 
 /******************************************************************************
+ *                      Get all week logs by user id
+ ******************************************************************************/
+
+const getAllByUserId = async (userId) => {
+  return db("week_log").where('users_id', userId).orderBy("week_of_year", "desc");
+}
+
+/******************************************************************************
  *                      Check if a week log exists for specified week
  ******************************************************************************/
 
@@ -81,4 +89,5 @@ module.exports = {
   checkIfWeekExists,
   getBy,
   update,
+  getAllByUserId,
 }
