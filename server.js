@@ -28,8 +28,5 @@ server.use('/auth', authRouter);
 server.use('/users', validateToken(), usersRouter);
 server.use('/admin', validateAdmin(), adminRouter);
 server.use('/day', validateToken(), sleepRouter);
-// server.use('/quality', validateToken(), qualityRouter);
-// server.use('./week', validateToken(), weekRouter);
-// server.use('./month', validateToken(), monthRouter);
-
+server.use('/month', validateToken(), monthRouter);
 module.exports = server;

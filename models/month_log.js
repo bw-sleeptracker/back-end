@@ -2,6 +2,13 @@ const db = require('../data/dbConfig');
 const {v4: uuidv4} = require('uuid');
 const moment = require('moment')
 
+/******************************************************************************
+ *                      Get all month logs by user id
+ ******************************************************************************/
+
+const getAllByUserId = async (userId) => {
+  return db("month_log").where('users_id', userId).orderBy("month_of_year", "desc");
+}
 
 /******************************************************************************
  *                      Check if a month log exists for specified month
@@ -83,4 +90,5 @@ module.exports = {
   checkIfMonthExists,
   getBy,
   update,
+  getAllByUserId,
 }
