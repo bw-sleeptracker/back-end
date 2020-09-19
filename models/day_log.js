@@ -5,11 +5,18 @@ const weekModel = require('./week_log')
 const qualityModel = require('./quality_log')
 const moment = require('moment')
 
+/******************************************************************************
+ *                      Check if a day log is already created
+ ******************************************************************************/
 
 const checkDuplicateDay = async (userId, month_of_year) => {
   // console.log({month_of_year})
   return db('day_log').where('users_id', userId).where('date', new Date());
 }
+
+/******************************************************************************
+ *                      Create a new day log
+ ******************************************************************************/
 
 const create = async (userId, bedtime) => {
   // first check to see if there is an active sleep log
@@ -49,6 +56,9 @@ const getAverageQualityForOneDay = (wakeScore, dayScore, bedScore) => {
   return ((wakeScore + dayScore + bedScore) / 3)
 }
 
+/******************************************************************************
+ *                      Update a day log (bubbles down to week and month logs)
+ ******************************************************************************/
 
 const update = async (userId, id, sleepData) => {
   let logUpdate = {
@@ -182,6 +192,10 @@ const update = async (userId, id, sleepData) => {
   return completeLog
 }
 
+/******************************************************************************
+ *                      Get all day logs by a user Id
+ ******************************************************************************/
+
 const getAllByUserId = async (id) => {
   const allLogs = await db('day_log as d')
     .where('d.users_id', id)
@@ -191,6 +205,10 @@ const getAllByUserId = async (id) => {
   return allLogs
 }
 
+/******************************************************************************
+ *                      Get most recent day log
+ ******************************************************************************/
+
 const getLatestByUserId = async (id) => {
   const log = await db('day_log as d')
     .where('d.users_id', id)
@@ -199,6 +217,10 @@ const getLatestByUserId = async (id) => {
     .orderBy('d.date', 'desc').first()
   return log
 }
+
+/******************************************************************************
+ *                      Get a day log by id
+ ******************************************************************************/
 
 const getById = async (id) => {
   return db('day_log').where({id}).select(
@@ -211,6 +233,10 @@ const getById = async (id) => {
   )
 }
 
+/******************************************************************************
+ *                      Get a day log by associated date
+ ******************************************************************************/
+
 const getByDate = async (id, date) => {
   const log = await db('day_log as d')
     .where('d.users_id', id)
@@ -221,11 +247,18 @@ const getByDate = async (id, date) => {
   return log
 }
 
+/******************************************************************************
+ *                      Remove a day log
+ ******************************************************************************/
+
 const remove = async (id) => {
   await db('quality_log').where('day_log_id', id).delete()
   return db('day_log').where({id}).delete()
 }
 
+/******************************************************************************
+ *                      Export methods
+ ******************************************************************************/
 
 module.exports = {
   getById,

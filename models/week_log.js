@@ -2,14 +2,25 @@ const db = require('../data/dbConfig');
 const {v4: uuidv4} = require('uuid');
 const moment = require('moment')
 
+/******************************************************************************
+ *                      Check if a week log exists for specified week
+ ******************************************************************************/
 
 const checkIfWeekExists = async (userId, week_of_year) => {
   return db('week_log').where('users_id', userId).where('week_of_year', week_of_year);
 }
 
+/******************************************************************************
+ *                      Get a week log by {key}
+ ******************************************************************************/
+
 const getBy = async (filter) => {
   return db("week_log").where(filter).orderBy("id");
 }
+
+/******************************************************************************
+ *                      Create a new week log
+ ******************************************************************************/
 
 const create = async (userId) => {
   const week_of_year = `${moment().week()}/${moment().year()}`
@@ -32,6 +43,10 @@ const create = async (userId) => {
   }
   return weekLogId;
 }
+
+/******************************************************************************
+ *                      Update a week log
+ ******************************************************************************/
 
 const update = async (userId, dayData) => {
   const {sleptHours, avgQuality} = dayData
@@ -57,6 +72,9 @@ const update = async (userId, dayData) => {
   return updatedLog
 }
 
+/******************************************************************************
+ *                      Export methods
+ ******************************************************************************/
 
 module.exports = {
   create,

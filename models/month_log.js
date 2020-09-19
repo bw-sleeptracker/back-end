@@ -2,6 +2,28 @@ const db = require('../data/dbConfig');
 const {v4: uuidv4} = require('uuid');
 const moment = require('moment')
 
+
+/******************************************************************************
+ *                      Check if a month log exists for specified month
+ ******************************************************************************/
+
+const checkIfMonthExists = async (userId, month_of_year) => {
+  // console.log({month_of_year})
+  return db('month_log').where('users_id', userId).where('month_of_year', month_of_year);
+}
+
+/******************************************************************************
+ *                      Get a month log by {key:}
+ ******************************************************************************/
+
+const getBy = async (filter) => {
+  return db("month_log").where(filter).orderBy("id");
+}
+
+/******************************************************************************
+ *                      Create a new month log
+ ******************************************************************************/
+
 const create = async (userId) => {
   const month_of_year = `${moment().month()}/${moment().year()}`
   //create new month data table
@@ -23,14 +45,10 @@ const create = async (userId) => {
   }
   return monthLogId;
 }
-const checkIfMonthExists = async (userId, month_of_year) => {
-  // console.log({month_of_year})
-  return db('month_log').where('users_id', userId).where('month_of_year', month_of_year);
-}
 
-const getBy = async (filter) => {
-  return db("month_log").where(filter).orderBy("id");
-}
+/******************************************************************************
+ *                      Update a month log
+ ******************************************************************************/
 
 const update = async (userId, dayData) => {
   const {sleptHours, avgQuality} = dayData
@@ -56,6 +74,9 @@ const update = async (userId, dayData) => {
   return updatedLog
 }
 
+/******************************************************************************
+ *                      Export methods
+ ******************************************************************************/
 
 module.exports = {
   create,
