@@ -5,25 +5,38 @@ const weekModel = require('./week_log')
 const qualityModel = require('./quality_log')
 
 
-const create = async (userId, bedtime) => {
-  // creating a basic sleep log when user creates a new bedtime
-  logData = {
-    id: uuidv4(),
-    users_id: userId,
-    date: new Date(),
-    bedtime: bedtime,
-    wake_time: null,
-    total_hours_slept: null,
-    average_quality: 0,
-  }
-  //  check if month and week logs already made and create them if not
-  const monthLogId = await monthModel.create(userId);
-  const weekLogId = await weekModel.create(userId);
-  const [logId] = await db('day_log').insert(logData).returning('id')
-  const qualityLogId = await qualityModel.create(logId);
-  return logId
+const checkDuplicateDay = async (userId, month_of_year) => {
+  // console.log({month_of_year})
+  return db('day_log').where('users_id', userId).where('date', new Date());
 }
 
+const create = async (userId, bedtime) => {
+  // first check to see if there is an active sleep log
+  const duplicate = await checkDuplicateDay(userId)
+  let logId
+  if (duplicate.length === 0) {
+    // creating a basic sleep log when user creates a new bedtime
+    logData = {
+      id: uuidv4(),
+      users_id: userId,
+      date: new Date(),
+      bedtime: bedtime,
+      wake_time: null,
+      total_hours_slept: null,
+      average_quality: 0,
+    }
+    //  check if month and week logs already made and create them if not
+    const monthLogId = await monthModel.create(userId);
+    const weekLogId = await weekModel.create(userId);
+    // create the day log
+    [logId] = await db('day_log').insert(logData).returning('id')
+    const qualityLogId = await qualityModel.create(logId);
+  } else {
+    logId = duplicate[0].id
+  }
+  console.log(logId)
+  return logId
+}
 // helper functions for updating
 const getSleptHours = (bedtime, wakeTime) => {
   const time1 = new Date(bedtime)
@@ -74,6 +87,9 @@ const update = async (id, sleepData) => {
     }
     await db('day_log').where({id}).update(logUpdate)
   }
+  // update the corresponding week log
+
+
   // return all the data from sleep log and quality log
   const [completeLog] = await db('day_log as d')
     .where('d.id', id)
@@ -135,4 +151,5 @@ module.exports = {
   getLatestByUserId,
   getByDate,
   remove,
+  checkDuplicateDay
 }
