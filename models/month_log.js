@@ -9,14 +9,17 @@ const create = async (userId) => {
   const duplicate = await checkDuplicateMonth(userId, month_of_year);
   let monthLogId
   if (duplicate.length === 0) {
-   [monthLogId] = await db('month_log').insert({
-    id: uuidv4(),
-    users_id: userId,
-    month_of_year: `${moment().month()}/${moment().year()}`,
-    average_hours_slept: null,
-    average_quality: null,
-  },).returning('id')
-    console.log(monthLogId)
+    // if month log does not exist only create a new on on first day of month
+    if (moment().date() === 1) {
+      [monthLogId] = await db('month_log').insert({
+        id: uuidv4(),
+        users_id: userId,
+        month_of_year: `${moment().month()}/${moment().year()}`,
+        average_hours_slept: null,
+        average_quality: null,
+      },).returning('id')
+      console.log(monthLogId)
+    }
   }
   return monthLogId;
 }

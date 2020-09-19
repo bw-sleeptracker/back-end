@@ -201,3 +201,4 @@ const createAdmins = async () => {
 
 // console.log(moment('1-25-1995').week())
 
+console.log(moment().date())
