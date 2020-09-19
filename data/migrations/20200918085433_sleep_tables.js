@@ -12,16 +12,16 @@ exports.up = function (knex) {
 
     .createTable("aggregate_month_data", tbl => {
       tbl.uuid("id").notNullable().unique().primary()
-      tbl.integer('average_hours_slept');
-      tbl.integer("data")
-      tbl.timestamp("month")
+      tbl.double('average_hours_slept');
+      tbl.double("data")
+      tbl.date("month")
     })
 
     .createTable("aggregate_week_data", tbl => {
       tbl.uuid("id").notNullable().unique().primary()
-      tbl.integer('average_hours_slept');
-      tbl.integer("data")
-      tbl.timestamp("week")
+      tbl.double('average_hours_slept');
+      tbl.double("data")
+      tbl.date("week")
       tbl.uuid("aggregate_month_data_id")
         .unsigned()
         .notNullable()
@@ -38,8 +38,8 @@ exports.up = function (knex) {
       tbl.date("date").notNullable();
       tbl.dateTime("bedtime").notNullable();
       tbl.dateTime("wake_time");
-      tbl.integer("total_hours_slept");
-      tbl.integer("average_quality").notNullable();
+      tbl.double("total_hours_slept");
+      tbl.double("average_quality").notNullable();
       tbl.uuid("users_id")
         .unsigned()
         .notNullable()
@@ -70,11 +70,8 @@ exports.up = function (knex) {
         .inTable("sleep_log")
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
-
     })
-
 };
-
 
 exports.down = function (knex) {
   return knex.schema.dropTableIfExists('users, aggregate_week_data,' +
