@@ -256,6 +256,25 @@
 ]
 ```
 
+### /week/?date={date}
+#### GET
+* Requires user to be logged in
+* Requires a date string in the format 9-19-20
+* Returns a JSON object containing sleep week log data for a user by
+  date query
+  
+```js
+[
+     {
+        "id": "d78c52f1-7098-4990-85c7-9c34c8de5ce8",
+        "week_of_year": "38/2020",
+        "average_hours_slept": 7,3,
+        "average_quality": 3,
+        "users_id": "e993312b-227d-4f1c-8e50-6f14908a8dfd"
+    }
+]
+```
+
 ### month/all/current-user
 #### GET
 

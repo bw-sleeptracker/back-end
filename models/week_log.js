@@ -11,6 +11,21 @@ const getAllByUserId = async (userId) => {
 }
 
 /******************************************************************************
+ *                      Get a week log by date query
+ ******************************************************************************/
+
+const getUsersLogByDate = async (id, date) => {
+  console.log(`${moment(date).week()}/${date.substring(date.length -4)}`)
+  return db("week_log")
+    .where('users_id', id)
+    .where('week_of_year', `${moment(date).week()}/2020` )
+    .select('id',
+      'week_of_year',
+      'average_hours_slept',
+      'average_quality');
+}
+
+/******************************************************************************
  *                      Check if a week log exists for specified week
  ******************************************************************************/
 
@@ -68,15 +83,15 @@ const update = async (userId, dayData) => {
 //  add todays entries plus old avgs divided by day count for new average
   let newHourAvg = ((sleptHours + oldHours) / dayCount).toFixed(2)
   let newQuality = ((avgQuality + oldQuality) / dayCount).toFixed(2)
- // finally update the week log
-    await db('week_log')
-      .where({week_of_year})
-      .where('users_id', userId)
-      .update({
-        average_hours_slept: newHourAvg,
-        average_quality: newQuality
-      }).select('id', 'week_of_year', 'average_hours_slept', 'average_quality')
-    const [updatedLog] = await db('week_log').where({week_of_year}).where('users_id', userId)
+  // finally update the week log
+  await db('week_log')
+    .where({week_of_year})
+    .where('users_id', userId)
+    .update({
+      average_hours_slept: newHourAvg,
+      average_quality: newQuality
+    }).select('id', 'week_of_year', 'average_hours_slept', 'average_quality')
+  const [updatedLog] = await db('week_log').where({week_of_year}).where('users_id', userId)
   return updatedLog
 }
 
@@ -90,4 +105,5 @@ module.exports = {
   getBy,
   update,
   getAllByUserId,
+  getUsersLogByDate,
 }

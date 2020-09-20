@@ -12,7 +12,7 @@ const validateBody = require('../middleware/validateUserUpdateBody');
 
 /******************************************************************************
  *                      Get all current users month logs - "GET
- *                      /month/current-user"
+ *                      /month/all/current-user"
  ******************************************************************************/
 
 router.get('/all/current-user', async (req, res, next) => {
@@ -24,6 +24,7 @@ router.get('/all/current-user', async (req, res, next) => {
     next(err);
   }
 })
+
 /******************************************************************************
  *                                 Export Router
  ******************************************************************************/
