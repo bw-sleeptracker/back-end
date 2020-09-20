@@ -42,6 +42,7 @@ router.get('/users/:id', validateUserId(), async (req, res, next) => {
 /******************************************************************************
  *                      Delete user - "DELETE /admin/users/:id"
  ******************************************************************************/
+
 router.delete('/users/:id', validateUserId(), async (req, res, next) => {
   try {
     const result = await usersModel.remove(req.params.id);
