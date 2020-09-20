@@ -128,7 +128,7 @@
 ```
 ### day/:id
 #### PUT
-#### updates a sleep day log by id
+#### updates a sleep day log by day log id
 * Requires user to be logged in
 * Requires a valid sleep log id for endpoint :id
 * Returns a JSON object containing updated sleep log data
@@ -154,12 +154,11 @@
 } 
 ```
 
-### day/all/current-user
+### day/current-user
 #### GET
 
 * Requires user to be logged in
-* Returns an array containing all sleep day log data for a user by user Id
- ordered by date
+* Returns an array containing all sleep day log data for a user by user Id ordered by newest first
 
 ```js
 [
@@ -187,27 +186,7 @@
     }
 ]
 ```
-### day/latest/current-user
-#### GET
-* Requires user to be logged in
-* Returns a JSON object containing most recent sleep day log data for a user by
- user id ordered by date
 
-```js
-
-    {
-        "id": "844a7234-6a86-4241-aef5-3f562d7ae494",
-        "date": "2020-09-18T04:00:00.000Z",
-        "bedtime": "2020-09-17T23:00:00.000Z",
-        "wake_time": null,
-        "total_hours_slept": null,
-        "average_quality": 0,
-        "wake_score": 0,
-        "day_score": 0,
-        "bedtime_score": 0
-    }
-
-```
 ### day/current-user/?date={date}
 #### GET
 * Requires user to be logged in
@@ -236,7 +215,7 @@
 * Requires a valid sleep log id for endpoint :id
 * Returns a status code of 204 if sleep day log deleted successfully
 
-### week/all/current-user
+### week/current-user
 #### GET
 
 * Requires user to be logged in
@@ -275,7 +254,7 @@
 ]
 ```
 
-### month/all/current-user
+### month/current-user
 #### GET
 
 * Requires user to be logged in

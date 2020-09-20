@@ -16,7 +16,7 @@ const validateBody = require('../middleware/validateUserUpdateBody');
  *                      /week/all/current-user"
  ******************************************************************************/
 
-router.get('/all/current-user', async (req, res, next) => {
+router.get('/current-user', async (req, res, next) => {
   try {
     const logs = await weekModel.getAllByUserId(req.id)
     res.status(200).json(logs)

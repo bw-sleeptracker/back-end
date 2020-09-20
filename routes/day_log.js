@@ -69,7 +69,7 @@ router.get('/current-user', validateDateQuery(),  async (req, res, next) => {
  *                      /day/all/current-user"
  ******************************************************************************/
 
-router.get('/all/current-user', async (req, res, next) => {
+router.get('/current-user', async (req, res, next) => {
   try {
     const logs = await dayModel.getAllByUserId(req.id)
     res.status(200).json(logs)
@@ -79,20 +79,6 @@ router.get('/all/current-user', async (req, res, next) => {
   }
 })
 
-/******************************************************************************
- *                      Get most recent sleep day_logs for current user- "GET
- *                      /day/latest/current-user"
- ******************************************************************************/
-
-router.get('/latest/current-user', async (req, res, next) => {
-  try {
-    const log = await dayModel.getLatestByUserId(req.id)
-    res.status(200).json(log)
-  } catch (err) {
-    console.log(err.stack);
-    next(err);
-  }
-})
 
 // TODO consider moving to admin router
 /******************************************************************************

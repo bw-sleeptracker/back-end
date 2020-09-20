@@ -206,19 +206,6 @@ const getAllByUserId = async (id) => {
 }
 
 /******************************************************************************
- *                      Get most recent day log
- ******************************************************************************/
-
-const getLatestByUserId = async (id) => {
-  const log = await db('day_log as d')
-    .where('d.users_id', id)
-    .join('quality_log as q', 'q.day_log_id', 'd.id')
-    .select('d.id', 'd.date', 'd.bedtime', 'd.wake_time', 'd.total_hours_slept', 'd.average_quality', 'q.wake_score', 'q.day_score', 'q.bedtime_score')
-    .orderBy('d.date', 'desc').first()
-  return log
-}
-
-/******************************************************************************
  *                      Get a day log by id
  ******************************************************************************/
 
