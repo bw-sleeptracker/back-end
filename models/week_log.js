@@ -94,15 +94,15 @@ const update = async (userId, dayData) => {
     newQuality = ((avgQuality + oldQuality) / dayCount).toFixed(2)
   }
   // finally update the week log
-  // await db('week_log')
-  //   .where({week_of_year})
-  //   .where('users_id', userId)
-  //   .update({
-  //     average_hours_slept: newHourAvg,
-  //     average_quality: newQuality
-  //   }).select('id', 'week_of_year', 'average_hours_slept', 'average_quality')
-  // const [updatedLog] = await db('week_log').where({week_of_year}).where('users_id', userId)
-  // return updatedLog
+  await db('week_log')
+    .where({week_of_year})
+    .where('users_id', userId)
+    .update({
+      average_hours_slept: newHourAvg,
+      average_quality: newQuality
+    }).select('id', 'week_of_year', 'average_hours_slept', 'average_quality')
+  const [updatedLog] = await db('week_log').where({week_of_year}).where('users_id', userId)
+  return updatedLog
 }
 
 /******************************************************************************
