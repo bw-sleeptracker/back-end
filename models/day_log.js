@@ -135,72 +135,79 @@ const getAverageQualityForOneDay = (wakeScore, dayScore, bedScore) => {
  ******************************************************************************/
 
 const update = async (userId, id, sleepData) => {
-
-  let logUpdate = {
-    wake_time: sleepData.wake_time,
-    bed_time: sleepData.bedtime || undefined,
-  }
-  // first update the wake_time
-  await db('day_log').where({id}).update(logUpdate)
-  // next update the quality scores
-  // get current quality values
-  let [currentQuality] = await qualityModel.getByDayLogId(id)
-  // if no value provided use old values
-  let qualityUpdate = {
-    wake_score: sleepData.wake_score || currentQuality.wake_score,
-    day_score: sleepData.day_score || currentQuality.day_score,
-    bedtime_score: sleepData.bedtime_score || currentQuality.bedtime_score
-  }
-  // update the scores
-  await qualityModel.update(id, qualityUpdate)
-  const [qualityLog] = await qualityModel.getByDayLogId(id)
-  // then get the newly formatted bedtime and wake_time
-  const [sleepLog] = await getById(id)
-  //then calculate hours slept with helper function and properly formatted times
-  const sleptHours = getSleptHours(sleepLog.bedtime, sleepLog.wake_time)
-  // update with hours slept
-  logUpdate = {
-    total_hours_slept: sleptHours,
-  }
-  await db('day_log').where({id}).update(logUpdate)
-  // if all scores are inputted calculate the average quality score and
-  // update week and month averages if logs exist
-  let averageQualityScore
+  // first check if log is complete already
+  let isDone = await db('day_log').where({id}).select('completed')
+  // TODO decide what to do if trying to update a completed log
+  // right now only updating if incomplete but returning the same data
+  // either way
   let updatedWeek
   let updatedMonth
-  if (qualityLog.wake_score !== 0 && qualityLog.day_score !== 0 && qualityLog.bedtime_score !== 0) {
+
+  if (!isDone) {
+    let logUpdate = {
+      wake_time: sleepData.wake_time,
+      bed_time: sleepData.bedtime || undefined,
+    }
+    // first update the wake_time
+    await db('day_log').where({id}).update(logUpdate)
+    // next update the quality scores
+    // get current quality values
+    let [currentQuality] = await qualityModel.getByDayLogId(id)
+    // if no value provided use old values
+    let qualityUpdate = {
+      wake_score: sleepData.wake_score || currentQuality.wake_score,
+      day_score: sleepData.day_score || currentQuality.day_score,
+      bedtime_score: sleepData.bedtime_score || currentQuality.bedtime_score
+    }
+    // update the scores
+    await qualityModel.update(id, qualityUpdate)
+    const [qualityLog] = await qualityModel.getByDayLogId(id)
+    // then get the newly formatted bedtime and wake_time
+    const [sleepLog] = await getById(id)
+    //then calculate hours slept with helper function and properly formatted times
+    const sleptHours = getSleptHours(sleepLog.bedtime, sleepLog.wake_time)
+    // update with hours slept
+    logUpdate = {
+      total_hours_slept: sleptHours,
+    }
+    await db('day_log').where({id}).update(logUpdate)
+    // if all scores are inputted calculate the average quality score and
+    // update week and month averages if logs exist
+    let averageQualityScore
+    if (qualityLog.wake_score !== 0 && qualityLog.day_score !== 0 && qualityLog.bedtime_score !== 0) {
       // set day log completed to true
       await db('day_log').update({completed: true})
 
-    averageQualityScore = getAverageQualityForOneDay(qualityLog.wake_score, qualityLog.day_score, qualityLog.bedtime_score)
-    // update the average score
-    logUpdate = {
-      average_quality: averageQualityScore,
-    }
-    await db('day_log').where({id}).update(logUpdate)
-    // update the corresponding week log if there is one
-    const week_of_year = `${moment().week()}/${moment().year()}`
-    let weekExists = await weekModel.checkIfWeekExists(userId, week_of_year)
-    if (weekExists.length > 0) {
-      let dayData = {
-        sleptHours: sleptHours,
-        avgQuality: averageQualityScore
+      averageQualityScore = getAverageQualityForOneDay(qualityLog.wake_score, qualityLog.day_score, qualityLog.bedtime_score)
+      // update the average score
+      logUpdate = {
+        average_quality: averageQualityScore,
       }
-      updatedWeek = weekModel.update(userId, dayData)
-    }
-    // update the corresponding month log if there is one
-    const month_of_year = `${moment().month() + 1}/${moment().year()}`
-    let monthExists = await monthModel.checkIfMonthExists(userId, month_of_year)
-    if (monthExists.length > 0) {
-      let dayData = {
-        sleptHours: sleptHours,
-        avgQuality: averageQualityScore
+      await db('day_log').where({id}).update(logUpdate)
+      // update the corresponding week log if there is one
+      const week_of_year = `${moment().week()}/${moment().year()}`
+      let weekExists = await weekModel.checkIfWeekExists(userId, week_of_year)
+      if (weekExists.length > 0) {
+        let dayData = {
+          sleptHours: sleptHours,
+          avgQuality: averageQualityScore
+        }
+        updatedWeek = weekModel.update(userId, dayData)
       }
-      updatedMonth = monthModel.update(userId, dayData)
+      // update the corresponding month log if there is one
+      const month_of_year = `${moment().month() + 1}/${moment().year()}`
+      let monthExists = await monthModel.checkIfMonthExists(userId, month_of_year)
+      if (monthExists.length > 0) {
+        let dayData = {
+          sleptHours: sleptHours,
+          avgQuality: averageQualityScore
+        }
+        updatedMonth = monthModel.update(userId, dayData)
+      }
     }
+    // return all the data from sleep log and quality log and week / month logs if
+    // applicable
   }
-  // return all the data from sleep log and quality log and week / month logs if
-  // applicable
   let completed
   if (updatedWeek && updatedMonth) {
     [completeLog] = await db('day_log as d')
@@ -278,9 +285,10 @@ const update = async (userId, id, sleepData) => {
         'q.day_score',
         'q.bedtime_score',
         'd.completed')
-
   }
   return completeLog
+
+
 }
 
 
