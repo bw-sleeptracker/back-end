@@ -29,7 +29,7 @@ router.get('/current-user', async (req, res, next) => {
 
 /******************************************************************************
  *                      Get a users month log by date query - "GET
- *                      /week/?date={'01-25-2000'}"
+ *                      /week/search/?date={'01-25-2000'}"
  ******************************************************************************/
 
 router.get('/current-user/search', async (req, res, next) => {
