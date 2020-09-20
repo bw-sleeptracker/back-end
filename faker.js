@@ -199,6 +199,6 @@ const createAdmins = async () => {
 
 // get week number by date
 
-// console.log(moment('1-25-1995').week())
+console.log(moment('1-25-1995').month() + 1 )
 
 console.log(moment().date())

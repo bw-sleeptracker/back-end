@@ -11,6 +11,20 @@ const getAllByUserId = async (userId) => {
 }
 
 /******************************************************************************
+ *                      Get a month log by date query
+ ******************************************************************************/
+
+const getUsersLogByDate = async (id, month, year) => {
+  return db("month_log")
+    .where('users_id', id)
+    .where('month_of_year', `${month}/${year}` )
+    .select('id',
+      'month_of_year',
+      'average_hours_slept',
+      'average_quality');
+}
+
+/******************************************************************************
  *                      Check if a month log exists for specified month
  ******************************************************************************/
 
@@ -91,4 +105,5 @@ module.exports = {
   getBy,
   update,
   getAllByUserId,
+  getUsersLogByDate,
 }
