@@ -158,7 +158,7 @@
 #### GET
 
 * Requires user to be logged in
-* Returns a JSON object containing all sleep log data for a user by user Id
+* Returns a JSON object containing all sleep day log data for a user by user Id
  ordered by date
 
 ```js
@@ -190,7 +190,7 @@
 ### day/latest/current-user
 #### GET
 * Requires user to be logged in
-* Returns a JSON object containing most recent sleep log data for a user by
+* Returns a JSON object containing most recent sleep day log data for a user by
  user id ordered by date
 
 ```js
@@ -212,7 +212,7 @@
 #### GET
 * Requires user to be logged in
 * Requires a date string in the format 2020-09-18
-* Returns a JSON object containing sleep log data for a user by
+* Returns a JSON object containing sleep day log data for a user by
   date query
 
 ```js
@@ -230,11 +230,48 @@
     }
 
 ```
-### DAY/:id
+### day/:id
 #### DELETE
 * Requires user to be logged in
 * Requires a valid sleep log id for endpoint :id
-* Returns a status code of 204 if sleep log deleted successfully
+* Returns a status code of 204 if sleep day log deleted successfully
 
+### week/all/current-user
+#### GET
 
+* Requires user to be logged in
+* Returns a JSON object containing all sleep week log data for a user by
+ user Id
+ ordered by date
 
+```js
+[
+     {
+        "id": "d78c52f1-7098-4990-85c7-9c34c8de5ce8",
+        "week_of_year": "38/2020",
+        "average_hours_slept": 7,3,
+        "average_quality": 3,
+        "users_id": "e993312b-227d-4f1c-8e50-6f14908a8dfd"
+    }
+]
+```
+
+### month/all/current-user
+#### GET
+
+* Requires user to be logged in
+* Returns a JSON object containing all sleep month log data for a user by
+ user Id
+ ordered by date
+
+```js
+[
+     {
+        "id": "d78c52f1-7098-4990-85c7-9c34c8de5ce8",
+        "month_of_year": "38/2020",
+        "average_hours_slept": 7,3,
+        "average_quality": 3,
+        "users_id": "e993312b-227d-4f1c-8e50-6f14908a8dfd"
+    }
+]
+```
