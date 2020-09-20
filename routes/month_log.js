@@ -32,12 +32,11 @@ router.get('/current-user', async (req, res, next) => {
  *                      /week/?date={'01-25-2000'}"
  ******************************************************************************/
 
-router.get('/current-user', async (req, res, next) => {
+router.get('/current-user/search', async (req, res, next) => {
 const month = (moment(req.query.date).month() + 1)
   const year = req.query.date.substring(req.query.date.length - 4)
   try {
     const log = await monthModel.getUsersLogByDate(req.id, month, year)
-    console.log(log)
     res.status(200).json(log)
   } catch (err) {
     console.log(err.stack);

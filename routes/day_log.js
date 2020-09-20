@@ -48,25 +48,11 @@ router.put('/:id', validateUpdateLogBody(), validateSleepLogId(), async (req, re
   }
 })
 
-/******************************************************************************
- *                      Get current users sleep day_log by date - "GET
- *                      /day/current-user/date?={date}"
- ******************************************************************************/
-
-router.get('/current-user', validateDateQuery(),  async (req, res, next) => {
-  try {
-    const log = await dayModel.getByDate(req.id, req.query.date)
-    res.status(200).json(log)
-  } catch (err) {
-    console.log(err.stack);
-    next(err);
-  }
-})
 
 /******************************************************************************
  *                      Get all sleep day_logs for a current user -
  *                      "GET
- *                      /day/all/current-user"
+ *                      /day/current-user"
  ******************************************************************************/
 
 router.get('/current-user', async (req, res, next) => {
@@ -79,6 +65,20 @@ router.get('/current-user', async (req, res, next) => {
   }
 })
 
+/******************************************************************************
+ *                      Get current users sleep day_log by date - "GET
+ *                      /day/current-user/search/date?={date}"
+ ******************************************************************************/
+
+router.get('/current-user/search', validateDateQuery(),  async (req, res, next) => {
+  try {
+    const log = await dayModel.getByDate(req.id, req.query.date)
+    res.status(200).json(log)
+  } catch (err) {
+    console.log(err.stack);
+    next(err);
+  }
+})
 
 // TODO consider moving to admin router
 /******************************************************************************

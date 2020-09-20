@@ -187,7 +187,7 @@
 ]
 ```
 
-### day/current-user/?date={date}
+### day/current-user/search/?date={date}
 #### GET
 * Requires user to be logged in
 * Requires a date string in the format 2020-09-18
@@ -235,7 +235,7 @@
 ]
 ```
 
-### /week/?date={date}
+### /week/current-user/search/?date={date}
 #### GET
 * Requires user to be logged in
 * Requires a date string in the format 9-19-2020
@@ -274,7 +274,7 @@
 ]
 ```
 
-### /month/?date={date}
+### /month/current-user/search/?date={date}
 #### GET
 * Requires user to be logged in
 * Requires a date string in the format 09-19-2020

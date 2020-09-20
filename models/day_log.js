@@ -14,6 +14,58 @@ const checkDuplicateDay = async (userId, month_of_year) => {
   return db('day_log').where('users_id', userId).where('date', new Date());
 }
 
+
+/******************************************************************************
+ *                      Get all day logs by a user Id
+ ******************************************************************************/
+
+const getAllByUserId = async (id) => {
+  const allLogs = await db('day_log as d')
+    .where('d.users_id', id)
+    .join('quality_log as q', 'q.day_log_id', 'd.id')
+    .select('d.id', 'd.date', 'd.bedtime', 'd.wake_time', 'd.total_hours_slept', 'd.average_quality', 'q.wake_score', 'q.day_score', 'q.bedtime_score')
+    .orderBy('d.date', 'desc')
+  return allLogs
+}
+
+/******************************************************************************
+ *                      Get a day log by id
+ ******************************************************************************/
+
+const getById = async (id) => {
+  return db('day_log').where({id}).select(
+    'id',
+    'bedtime',
+    'date',
+    'wake_time',
+    'total_hours_slept',
+    'average_quality',
+  )
+}
+
+/******************************************************************************
+ *                      Get a day log by associated date
+ ******************************************************************************/
+
+const getByDate = async (id, date) => {
+  const log = await db('day_log as d')
+    .where('d.users_id', id)
+    .where('d.date', date)
+    .join('quality_log as q', 'q.day_log_id', 'd.id')
+    .select('d.id', 'd.date', 'd.bedtime', 'd.wake_time', 'd.total_hours_slept', 'd.average_quality', 'q.wake_score', 'q.day_score', 'q.bedtime_score')
+    .orderBy('d.date', 'desc').first()
+  return log
+}
+
+/******************************************************************************
+ *                      Remove a day log
+ ******************************************************************************/
+
+const remove = async (id) => {
+  await db('quality_log').where('day_log_id', id).delete()
+  return db('day_log').where({id}).delete()
+}
+
 /******************************************************************************
  *                      Create a new day log
  ******************************************************************************/
@@ -57,7 +109,7 @@ const getAverageQualityForOneDay = (wakeScore, dayScore, bedScore) => {
 }
 
 /******************************************************************************
- *                      Update a day log (bubbles down to week and month logs)
+ *            Update a day log (bubbles down to week and month logs)
  ******************************************************************************/
 
 const update = async (userId, id, sleepData) => {
@@ -192,56 +244,6 @@ const update = async (userId, id, sleepData) => {
   return completeLog
 }
 
-/******************************************************************************
- *                      Get all day logs by a user Id
- ******************************************************************************/
-
-const getAllByUserId = async (id) => {
-  const allLogs = await db('day_log as d')
-    .where('d.users_id', id)
-    .join('quality_log as q', 'q.day_log_id', 'd.id')
-    .select('d.id', 'd.date', 'd.bedtime', 'd.wake_time', 'd.total_hours_slept', 'd.average_quality', 'q.wake_score', 'q.day_score', 'q.bedtime_score')
-    .orderBy('d.date', 'desc')
-  return allLogs
-}
-
-/******************************************************************************
- *                      Get a day log by id
- ******************************************************************************/
-
-const getById = async (id) => {
-  return db('day_log').where({id}).select(
-    'id',
-    'bedtime',
-    'date',
-    'wake_time',
-    'total_hours_slept',
-    'average_quality',
-  )
-}
-
-/******************************************************************************
- *                      Get a day log by associated date
- ******************************************************************************/
-
-const getByDate = async (id, date) => {
-  const log = await db('day_log as d')
-    .where('d.users_id', id)
-    .where('d.date', date)
-    .join('quality_log as q', 'q.day_log_id', 'd.id')
-    .select('d.id', 'd.date', 'd.bedtime', 'd.wake_time', 'd.total_hours_slept', 'd.average_quality', 'q.wake_score', 'q.day_score', 'q.bedtime_score')
-    .orderBy('d.date', 'desc').first()
-  return log
-}
-
-/******************************************************************************
- *                      Remove a day log
- ******************************************************************************/
-
-const remove = async (id) => {
-  await db('quality_log').where('day_log_id', id).delete()
-  return db('day_log').where({id}).delete()
-}
 
 /******************************************************************************
  *                      Export methods
@@ -252,7 +254,6 @@ module.exports = {
   create,
   update,
   getAllByUserId,
-  getLatestByUserId,
   getByDate,
   remove,
   checkDuplicateDay

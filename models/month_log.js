@@ -49,7 +49,7 @@ const create = async (userId) => {
   const month_of_year = `${moment().month()}/${moment().year()}`
   //create new month data table
   // check to see if month_of_year already exists for userId first
-  const duplicate = await checkDuplicateMonth(userId, month_of_year);
+  const duplicate = await checkIfMonthExists(userId, month_of_year);
   let monthLogId
   if (duplicate.length === 0) {
     // if month log does not exist only create a new on on first day of month

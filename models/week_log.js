@@ -15,7 +15,6 @@ const getAllByUserId = async (userId) => {
  ******************************************************************************/
 
 const getUsersLogByDate = async (id, date) => {
-  console.log(`${moment(date).week()}/${date.substring(date.length -4)}`)
   return db("week_log")
     .where('users_id', id)
     .where('week_of_year', `${moment(date).week()}/2020` )
