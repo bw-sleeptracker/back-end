@@ -98,8 +98,9 @@ const create = async (userId, bedtime) => {
 }
 // helper functions for updating
 const getSleptHours = (bedtime, wakeTime) => {
-  const time1 = new Date(bedtime)
-  const time2 = new Date(wakeTime)
+  // using an arbitrary date to calculate hours slept
+  const time1 = new Date(`2020-09-18T${bedtime}`)
+  const time2 = new Date(`2020-09-19T${wakeTime}`)
   let sleepDifference = Math.abs(time1.getTime() - time2.getTime())
   sleepDifference = sleepDifference / (1000 * 60 * 60);
   return (sleepDifference * 100) / 100
