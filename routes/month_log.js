@@ -17,7 +17,7 @@ const validateBody = require('../middleware/validateUserUpdateBody');
  *                      /month/all/current-user"
  ******************************************************************************/
 
-router.get('/all/current-user', async (req, res, next) => {
+router.get('/current-user', async (req, res, next) => {
   try {
     const logs = await monthModel.getAllByUserId(req.id)
     res.status(200).json(logs)
@@ -29,15 +29,14 @@ router.get('/all/current-user', async (req, res, next) => {
 
 /******************************************************************************
  *                      Get a users month log by date query - "GET
- *                      /week/?date={'01-25-2000'}"
+ *                      /week/search/?date={'01-25-2000'}"
  ******************************************************************************/
 
-router.get('/current-user', async (req, res, next) => {
+router.get('/current-user/search', async (req, res, next) => {
 const month = (moment(req.query.date).month() + 1)
   const year = req.query.date.substring(req.query.date.length - 4)
   try {
     const log = await monthModel.getUsersLogByDate(req.id, month, year)
-    console.log(log)
     res.status(200).json(log)
   } catch (err) {
     console.log(err.stack);

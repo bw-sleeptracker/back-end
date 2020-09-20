@@ -22,7 +22,6 @@
 //   token = response.body.token
 // }
 //
-// module.exports = describe('admin router endpoints', () => {
 //   // * clears db and
 //   // reseeds to initial data before each individual test
 //   beforeEach(async () => {
@@ -113,4 +112,3 @@
 //       }
 //     })
 //   })
-// })

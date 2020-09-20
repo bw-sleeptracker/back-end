@@ -15,10 +15,9 @@ const getAllByUserId = async (userId) => {
  ******************************************************************************/
 
 const getUsersLogByDate = async (id, date) => {
-  console.log(`${moment(date).week()}/${date.substring(date.length -4)}`)
   return db("week_log")
     .where('users_id', id)
-    .where('week_of_year', `${moment(date).week()}/2020` )
+    .where('week_of_year', `${moment(date).week()}/2020`)
     .select('id',
       'week_of_year',
       'average_hours_slept',
@@ -53,13 +52,13 @@ const create = async (userId) => {
   let weekLogId
   if (duplicate.length === 0) {
     // if week log does not exist only create a new on on sundays
-    if (moment().day() === 7) {
+    if (moment().day() === 0) {
       [weekLogId] = await db('week_log').insert({
         id: uuidv4(),
         users_id: userId,
         week_of_year: `${moment().week()}/${moment().year()}`,
-        average_hours_slept: null,
-        average_quality: null,
+        average_hours_slept: 0,
+        average_quality: 0,
       },).returning('id')
       console.log(weekLogId)
     }
@@ -81,8 +80,19 @@ const update = async (userId, dayData) => {
 //  get day count of week for average
   let dayCount = (moment().day())
 //  add todays entries plus old avgs divided by day count for new average
-  let newHourAvg = ((sleptHours + oldHours) / dayCount).toFixed(2)
-  let newQuality = ((avgQuality + oldQuality) / dayCount).toFixed(2)
+  let newHourAvg
+  let newQuality
+  // if weekly averages are null update them with todays averages
+  if (oldHours === 0) {
+    newHourAvg = sleptHours
+  } else {
+    newHourAvg = ((sleptHours + oldHours) / dayCount).toFixed(2)
+  }
+  if (oldQuality === 0) {
+    newQuality = avgQuality
+  } else {
+    newQuality = ((avgQuality + oldQuality) / dayCount).toFixed(2)
+  }
   // finally update the week log
   await db('week_log')
     .where({week_of_year})

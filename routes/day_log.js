@@ -37,7 +37,7 @@ router.post('/current-user', validateCreateLogBody(), async (req, res, next) => 
  *                      /day/:id"
  ******************************************************************************/
 
-router.put('/:id', validateUpdateLogBody(), validateSleepLogId(), async (req, res, next) => {
+router.put('/:id', validateUpdateLogBody(), validateSleepLogId(),  async (req, res, next) => {
   const {id} = req.params;
   try {
     const sleepLog = await dayModel.update(req.id, id, req.body)
@@ -48,28 +48,14 @@ router.put('/:id', validateUpdateLogBody(), validateSleepLogId(), async (req, re
   }
 })
 
-/******************************************************************************
- *                      Get current users sleep day_log by date - "GET
- *                      /day/current-user/date?={date}"
- ******************************************************************************/
-
-router.get('/current-user', validateDateQuery(),  async (req, res, next) => {
-  try {
-    const log = await dayModel.getByDate(req.id, req.query.date)
-    res.status(200).json(log)
-  } catch (err) {
-    console.log(err.stack);
-    next(err);
-  }
-})
 
 /******************************************************************************
  *                      Get all sleep day_logs for a current user -
  *                      "GET
- *                      /day/all/current-user"
+ *                      /day/current-user"
  ******************************************************************************/
 
-router.get('/all/current-user', async (req, res, next) => {
+router.get('/current-user', async (req, res, next) => {
   try {
     const logs = await dayModel.getAllByUserId(req.id)
     res.status(200).json(logs)
@@ -80,13 +66,13 @@ router.get('/all/current-user', async (req, res, next) => {
 })
 
 /******************************************************************************
- *                      Get most recent sleep day_logs for current user- "GET
- *                      /day/latest/current-user"
+ *                      Get current users sleep day_log by date - "GET
+ *                      /day/current-user/search/date?={date}"
  ******************************************************************************/
 
-router.get('/latest/current-user', async (req, res, next) => {
+router.get('/current-user/search', validateDateQuery(),  async (req, res, next) => {
   try {
-    const log = await dayModel.getLatestByUserId(req.id)
+    const log = await dayModel.getByDate(req.id, req.query.date)
     res.status(200).json(log)
   } catch (err) {
     console.log(err.stack);

@@ -49,7 +49,7 @@ const create = async (userId) => {
   const month_of_year = `${moment().month()}/${moment().year()}`
   //create new month data table
   // check to see if month_of_year already exists for userId first
-  const duplicate = await checkDuplicateMonth(userId, month_of_year);
+  const duplicate = await checkIfMonthExists(userId, month_of_year);
   let monthLogId
   if (duplicate.length === 0) {
     // if month log does not exist only create a new on on first day of month
@@ -58,8 +58,8 @@ const create = async (userId) => {
         id: uuidv4(),
         users_id: userId,
         month_of_year: `${moment().month()}/${moment().year()}`,
-        average_hours_slept: null,
-        average_quality: null,
+        average_hours_slept: 0,
+        average_quality: 0,
       },).returning('id')
       console.log(monthLogId)
     }
@@ -81,8 +81,19 @@ const update = async (userId, dayData) => {
 //  get day count of month days for average
   let dayCount = (moment().date())
 //  add todays entries plus old avgs divided by day count for new average
-  let newHourAvg = ((sleptHours + oldHours) / dayCount).toFixed(2)
-  let newQuality = ((avgQuality + oldQuality) / dayCount).toFixed(2)
+    let newHourAvg
+  let newQuality
+  // if weekly averages are null update them with todays averages
+  if (oldHours === 0) {
+    newHourAvg = sleptHours
+  } else {
+    newHourAvg = ((sleptHours + oldHours) / dayCount).toFixed(2)
+  }
+  if (oldQuality === 0) {
+    newQuality = avgQuality
+  } else {
+    newQuality = ((avgQuality + oldQuality) / dayCount).toFixed(2)
+  }
   // finally update the month log
   await db('month_log')
     .where({month_of_year})
