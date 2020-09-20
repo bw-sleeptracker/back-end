@@ -113,6 +113,7 @@ const getAverageQualityForOneDay = (wakeScore, dayScore, bedScore) => {
  ******************************************************************************/
 
 const update = async (userId, id, sleepData) => {
+
   let logUpdate = {
     wake_time: sleepData.wake_time,
     bed_time: sleepData.bedtime || undefined,

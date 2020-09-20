@@ -19,7 +19,6 @@
 //   token = response.body.token
 // }
 // const contentType = "application/json; charset=utf-8"
-// module.exports = describe('users router endpoints', () => {
 // // * clears db and reseeds it to initial data before each individual test
 //   beforeEach(async () => {
 //     // await db.migrate.latest();
@@ -99,4 +98,3 @@
 //       }
 //     })
 //   })
-// })

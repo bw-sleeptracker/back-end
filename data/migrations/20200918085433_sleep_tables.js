@@ -41,10 +41,11 @@ exports.up = function (knex) {
     .createTable("day_log", tbl => {
       tbl.uuid('id').notNullable().unique().primary();
       tbl.date("date").notNullable();
-      tbl.dateTime("bedtime").notNullable();
-      tbl.dateTime("wake_time");
+      tbl.time("bedtime").notNullable();
+      tbl.time("wake_time");
       tbl.double("total_hours_slept");
       tbl.double("average_quality").notNullable();
+      tbl.boolean('completed').defaultTo(false);
       tbl.uuid("users_id")
         .unsigned()
         .notNullable()

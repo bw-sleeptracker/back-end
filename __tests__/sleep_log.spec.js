@@ -57,11 +57,11 @@ describe('day log integration tests', () => {
     await login();
     if (token !== undefined) {
       const res = await supertest(server).post('/day/current-user').send({token: token}).send({
-        bedtime: "2020-09-17 23:00:00"
+        bedtime: "23:00:00"
       });
       expect(res.statusCode).toBe(201);
       expect(res.headers['content-type']).toBe(contentType);
-      expect(res.body.bedtime).toBe('2020-09-18T03:00:00.000Z');
+      expect(res.body.bedtime).toBe('23:00:00');
     }
   })
 })
@@ -90,7 +90,7 @@ it('PUT /day/:id, (sends descriptive error if bad  day log id sent when' +
   await login();
   if (token !== undefined) {
     const res = await supertest(server).put(`/day/${invalidDayLogId}`).send({token: token}).send({
-      wake_time: "2020-09-18 06:00:00",
+      wake_time: "06:00:00",
       wake_score: 2,
       day_score: 1,
       bedtime_score: 3
@@ -106,18 +106,18 @@ it('PUT /day/:id, (can update sleep day log if user is logged in and' +
   await login();
   if (token !== undefined) {
     const res = await supertest(server).put(`/day/${validDayLogId}`).send({token: token}).send({
-      wake_time: "2020-09-18 06:00:00",
+      wake_time: "06:00:00",
       wake_score: 2,
       day_score: 1,
       bedtime_score: 3
     });
     expect(res.statusCode).toBe(201);
     expect(res.headers['content-type']).toBe(contentType);
-    expect(res.body.wake_time).toBe('2020-09-18T10:00:00.000Z')
+    expect(res.body.wake_time).toBe('06:00:00')
   }
 })
 
-it('GET /day/current-user/search/date?={date}, (can not update sleep day log' +
+it('GET /day/current-user/search/date?={date}, (can not get sleep day log' +
   ' if' +
   ' not' +
   ' logged' +
@@ -143,7 +143,7 @@ it('GET /day/current-user/search/date?={date}, (returns the sleep day log for' +
   await login();
   if (token !== undefined) {
     await supertest(server).post('/day/current-user').send({token: token}).send({
-      bedtime: "2020-09-17 23:00:00"
+      bedtime: "23:00:00"
     });
     // ! the date provided for the query and expected need to be todays
     // ! date for test to pass

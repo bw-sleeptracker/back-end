@@ -17,7 +17,6 @@
 //   const response = await supertest(server).post('/auth/login').send(dummyUser);
 //   token = response.body.token
 // }
-// module.exports = describe('auth router endpoints', () => {
 //
 // // * clears db and reseeds it to initial data before each individual test
 //   beforeEach(async () => {
@@ -131,4 +130,3 @@
 //       expect(res.statusCode).toBe(401);
 //     })
 //   })
-// })
