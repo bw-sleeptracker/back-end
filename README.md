@@ -74,7 +74,7 @@
 ### admin/users
 #### GET
 * Requires an admin user to be logged in 
-* Returns a JSON object containing all users information
+* Returns an array containing all users information
 ```js
 {
     "id": "c0137caf-69db-4040-8fef-7490ff829d45",
@@ -158,7 +158,7 @@
 #### GET
 
 * Requires user to be logged in
-* Returns a JSON object containing all sleep day log data for a user by user Id
+* Returns an array containing all sleep day log data for a user by user Id
  ordered by date
 
 ```js
@@ -240,7 +240,7 @@
 #### GET
 
 * Requires user to be logged in
-* Returns a JSON object containing all sleep week log data for a user by
+* Returns an array containing all sleep week log data for a user by
  user Id
  ordered by date
 
@@ -279,7 +279,7 @@
 #### GET
 
 * Requires user to be logged in
-* Returns a JSON object containing all sleep month log data for a user by
+* Returns an array containing all sleep month log data for a user by
  user Id
  ordered by date
 
