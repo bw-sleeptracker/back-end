@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const validateAdmin = require('./auth/validateAdmin');
 const validateToken = require('./auth/validateToken')
+const cors = require('cors');
 
 
 const indexRouter = require('./routes/index');
@@ -18,6 +19,7 @@ const monthRouter = require('./routes/month_log')
 const server = express();
 
 server.use(logger('dev'));
+server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({extended: false}));
 server.use(cookieParser());
