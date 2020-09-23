@@ -35,7 +35,6 @@ router.post('/register', validateBodyPassword(), validateBodyUsername(), validat
 
 
 router.post("/login", validateBodyPassword(), validateBodyUsername(), async (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
   try {
     const {username, password} = req.body
     const user = await usersModel.getBy({username});
