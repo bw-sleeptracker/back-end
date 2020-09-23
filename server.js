@@ -19,7 +19,10 @@ const monthRouter = require('./routes/month_log')
 const server = express();
 
 server.use(logger('dev'));
-server.use(cors());
+server.use(cors({
+  origin: ['localhost:3000' ],
+  credentials: true,
+}));
 server.use(express.json());
 server.use(express.urlencoded({extended: false}));
 server.use(cookieParser());
