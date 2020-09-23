@@ -56,7 +56,7 @@ router.post("/login", validateBodyPassword(), validateBodyUsername(), async (req
       userAdmin: user[0].admin
     }, process.env.JWT_SECRET)
     // send the token back as a cookie
-    res.cookie("token", token, {sameSite: "lax"})
+    res.cookie("token", token, {sameSite: "none"})
     res.json({
       token,
       message: `Welcome ${user[0].username}!`,
