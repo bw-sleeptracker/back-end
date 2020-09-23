@@ -20,7 +20,7 @@ const server = express();
 
 server.use(logger('dev'));
 server.use(cors({
-  origin: ['localhost:3000', 'localhost:3001', 'localhost:30003', 'localhost:30004', 'https://sleep-tracker-backend.herokuapp.com'],
+  origin: ['https://sleep-tracker-backend.herokuapp.com'],
   credentials: true,
 }));
 server.use(express.json());
