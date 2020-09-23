@@ -57,7 +57,7 @@ router.post("/login", validateBodyPassword(), validateBodyUsername(), async (req
     }, process.env.JWT_SECRET)
     // send the token back as a cookie
     res.cookie("token", token, {
-      sameSite: "none"
+      sameSite: "none",
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true
     })
