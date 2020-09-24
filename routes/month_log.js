@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const moment = require('moment')
+const helper = require('../helpers/helper')
 
 const sleepModel = require('../models/day_log');
 const qualityModel = require('../models/quality_log');
@@ -21,6 +22,25 @@ router.get('/current-user', async (req, res, next) => {
   try {
     const logs = await monthModel.getAllByUserId(req.id)
     res.status(200).json(logs)
+  } catch (err) {
+    console.log(err.stack);
+    next(err);
+  }
+})
+
+/******************************************************************************
+ *        Get all current users month logs average Qualities- "GET
+ *                      /month/all/current-user/average"
+ ******************************************************************************/
+
+router.get('/current-user/average', async (req, res, next) => {
+  try {
+    // Grabs user id to send month data to CalculateAverageQuality function in helpers
+    const logs = await monthModel.getAllByUserId(req.id)
+    // Sends data to CalculateAverageQuality and sets it to monthsAverage(Returns object)
+    const monthsAverage = helper.calculateAverageQuality(logs)
+    // Sends object as response {qualityTotal:<allQualitySummed>,totalMonths:<total#ofMonths>, averageQuality:<AverageQualityTotal>}
+    res.status(200).json(monthsAverage)
   } catch (err) {
     console.log(err.stack);
     next(err);
