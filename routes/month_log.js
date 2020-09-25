@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const moment = require('moment')
+<<<<<<< HEAD
+=======
+const helper = require('../helpers/helper')
+>>>>>>> e6ec9f98de31393762fa22bb090f6f9517d7fcd9
 
 const sleepModel = require('../models/day_log');
 const qualityModel = require('../models/quality_log');
@@ -28,6 +32,28 @@ router.get('/current-user', async (req, res, next) => {
 })
 
 /******************************************************************************
+<<<<<<< HEAD
+=======
+ *        Get all current users month logs average Qualities- "GET
+ *                      /month/all/current-user/average"
+ ******************************************************************************/
+
+router.get('/current-user/average', async (req, res, next) => {
+  try {
+    // Grabs user id to send month data to CalculateAverageQuality function in helpers
+    const logs = await monthModel.getAllByUserId(req.id)
+    // Sends data to CalculateAverageQuality and sets it to monthsAverage(Returns object)
+    const monthsAverage = helper.calculateAverageQuality(logs)
+    // Sends object as response {qualityTotal:<allQualitySummed>,totalMonths:<total#ofMonths>, averageQuality:<AverageQualityTotal>}
+    res.status(200).json(monthsAverage)
+  } catch (err) {
+    console.log(err.stack);
+    next(err);
+  }
+})
+
+/******************************************************************************
+>>>>>>> e6ec9f98de31393762fa22bb090f6f9517d7fcd9
  *                      Get a users month log by date query - "GET
  *                      /week/search/?date={'01-25-2000'}"
  ******************************************************************************/

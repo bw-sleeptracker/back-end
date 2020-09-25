@@ -290,6 +290,29 @@
 ]
 ```
 
+
+### month/current-user/average
+#### GET
+
+* Requires user to be logged in
+* Returns an object containing total sleep quality for all months  
+{  
+"qualityTotal":<Total of all reported quality for all months>,  
+"totalMonths":<Total months user has records for>,  
+"averageQuality":<Average Quality of sleep for all months>  
+}  
+
+
+```js
+[
+     {
+  "qualityTotal": 6,
+  "totalMonths": 2,
+  "averageQuality": 3
+    }
+]
+```
+
 ### /month/current-user/search/?date={date}
 #### GET
 * Requires user to be logged in
@@ -307,4 +330,4 @@
     }
 ]
 ```
-# sleep-like-a-baby-api
+

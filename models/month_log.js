@@ -1,6 +1,10 @@
 const db = require('../data/dbConfig');
 const {v4: uuidv4} = require('uuid');
 const moment = require('moment')
+<<<<<<< HEAD
+=======
+const helper = require('../helpers/helper');
+>>>>>>> e6ec9f98de31393762fa22bb090f6f9517d7fcd9
 
 /******************************************************************************
  *                      Get all month logs by user id
@@ -10,6 +14,10 @@ const getAllByUserId = async (userId) => {
   return db("month_log").where('users_id', userId).orderBy("month_of_year", "desc");
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e6ec9f98de31393762fa22bb090f6f9517d7fcd9
 /******************************************************************************
  *                      Get a month log by date query
  ******************************************************************************/
