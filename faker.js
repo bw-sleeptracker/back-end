@@ -189,7 +189,7 @@ const adminIds = ['1dd68a45-de2c-49f9-8b32-c7ca3f08792b',
 ]
 // floodUsers()
 // createAdmins()
-// floodAdminsData()
+floodAdminsData()
 
 
 // get week number by date
@@ -198,7 +198,7 @@ const adminIds = ['1dd68a45-de2c-49f9-8b32-c7ca3f08792b',
 // console.log(moment().date())
 // console.log(moment('8-30-2020').week())
 
-console.log(moment().date())
+// console.log(moment().date())
 // const bedtime = new Date(`2020-09-18T23:00:00`).getTime()
 // const formattedBedTime = moment(time).format('hh:mm:A')
 //
