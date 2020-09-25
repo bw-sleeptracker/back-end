@@ -58,6 +58,7 @@ router.post("/login", validateBodyPassword(), validateBodyUsername(), async (req
     // send the token back as a cookie
     res.cookie("token", token, {
       sameSite: "none",
+      // can set this to false for localhost client testing maybe?
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true
     })

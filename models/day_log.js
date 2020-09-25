@@ -117,7 +117,8 @@ const create = async (userId, bedtime) => {
   }
   return logId
 }
-// helper functions for updating
+
+
 const getSleptHours = (bedtime, wakeTime) => {
   // using an arbitrary date to calculate hours slept
   const time1 = new Date(`2020-09-18T${bedtime}`)
@@ -142,7 +143,6 @@ const update = async (userId, id, sleepData) => {
   // either way
   let updatedWeek
   let updatedMonth
-
   if (!isDone) {
     let logUpdate = {
       wake_time: sleepData.wake_time,

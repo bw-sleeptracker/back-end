@@ -83,7 +83,7 @@ const update = async (userId, dayData) => {
 //  add todays entries plus old avgs divided by day count for new average
     let newHourAvg
   let newQuality
-  // if weekly averages are null update them with todays averages
+  // if monthly averages are null update them with todays averages
   if (oldHours === 0) {
     newHourAvg = sleptHours
   } else {

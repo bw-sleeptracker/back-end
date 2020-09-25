@@ -5,65 +5,18 @@ const {v4: uuidv4} = require('uuid');
 const db = require('./data/dbConfig');
 
 
-const floodUsers = async () => {
-  for (let i = 0; i < 20; i++) {
-    setTimeout(async () => {
-      const userData = {
-        id: faker.random.uuid(),
-        username: faker.name.firstName() + faker.random.number(),
-        password: faker.internet.password(),
-        email: faker.internet.email(),
-      }
-
-      return db('users')
-        .insert(userData)
-        .catch(err => log(err));
-    }, 1000);
-  }
-}
 
 let month = 1
 let day = 0
 
-const createAdmins = async () => {
+const createAdmin = async () => {
   const admins = [
     {
       admin: true,
       email: 'jess@email.com',
       username: 'Jess',
       password: 'unit4',
-    },
-    {
-      admin: true,
-      email: 'Daniel',
-      username: 'daniel@email.com',
-      password: 'unit4',
-    },
-    {
-      admin: true,
-      email: 'kevin@email.com',
-      username: 'Kevin',
-      password: 'unit3',
-    },
-    {
-      admin: true,
-      email: 'kasi@email.com',
-      username: 'Kasi',
-      password: 'unit3',
-    },
-    {
-      admin: true,
-      email: 'tom@email.com',
-      username: 'Tom',
-      password: 'unit2',
-    },
-    {
-      admin: true,
-      email: 'seth@email.com',
-      username: 'Seth',
-      password: 'unit1',
-    },
-
+    }
   ]
   admins.map(admin => {
     setTimeout(async () => {
@@ -191,10 +144,14 @@ const adminIds = ['1dd68a45-de2c-49f9-8b32-c7ca3f08792b',
 // createAdmins()
 // floodAdminsData()
 
-
 // get week number by date
 // console.log(moment('1-25-1995').month() + 1 )
 
 // console.log(moment().date())
 // console.log(moment('8-30-2020').week())
-// console.log(faker.date.past())
+
+console.log(moment().date())
+// const bedtime = new Date(`2020-09-18T23:00:00`).getTime()
+// const formattedBedTime = moment(time).format('hh:mm:A')
+//
+// console.log(formattedTime)
